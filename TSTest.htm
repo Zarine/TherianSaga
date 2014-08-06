@@ -10,9 +10,7 @@
 
 var _ItemBaseSkillData = {};
 var _SkillData = {};
-var _ItemBaseSet = {};
-
-var _NoTranslation = {};
+var _ItemBaseData = {};
 
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -89,8 +87,10 @@ var _NoTranslation = {};
 
 		    _SkillData[skillElement.getAttribute("id")] = skill;
 	      }
-  }
+	}
+
   
+
   function extractItemBaseSet(context) {
 		  var itemBaseSet =  context.getElementsByTagName("itemBaseSet")[0];
 		  var numberOfItem = itemBaseSet.getAttribute("count");
@@ -104,15 +104,23 @@ var _NoTranslation = {};
 			if(nameElement.getElementsByTagName("text").length == 1)
 			{
 			  itemBase['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-			  _NoTranslation[itemBaseElement.getAttribute("id")] = itemBase;
 			}
 			else
 			{
-			
 			  itemBase['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
             }
-		    _ItemBaseSet[itemBaseElement.getAttribute("id")] = itemBase;
+		    _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
 	      }
+		}
+
+		
+  function display() {
+	var result = "";
+	for (var itemBaseSkillId in _ItemBaseSkillData){
+	  var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
+      result +=  '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getNameEN(_ItemBaseData[itemBaseSkill['itemBaseId']]) + "&gt;" + '</ul>';
+    } 
+	document.getElementById('list').innerHTML = result;
   }
   
   function getNameEN(dataElement) {
