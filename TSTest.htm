@@ -10,6 +10,7 @@
 
 var itemBaseSkillData = {};
 var SkillData = {};
+var ItemBaseData = {};
 
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -58,6 +59,21 @@ var SkillData = {};
 
 		    SkillData[skillElement.getAttribute("id")] = skill;
 	      }
+          
+		  // itemBaseSet
+		  var itemBaseSet =  context.getElementsByTagName("itemBaseSet")[0];
+		  numberOfItem = itemBaseSet.getAttribute("count");
+		  for(var i = 0; i < numberOfItem; i++)
+		  {
+		    var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i]
+			
+			var itemBase = {};
+			var nameElement = itemBaseElement.getElementsByTagName("name")[0];
+            //TODO: Replace index by 1 for English translation, but error handling has to be implemented before as some localizations are missing
+            itemBase['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+            
+		    ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
+	      }
 		  
 		  display();
         };
@@ -72,7 +88,7 @@ var SkillData = {};
 	var result = "";
 	for (var itemBaseSkillId in itemBaseSkillData){
 	  var itemBaseSkill = itemBaseSkillData[itemBaseSkillId];
-      result +=  '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + itemBaseSkill['itemBaseId'] + "&gt;" + '</ul>';
+      result +=  '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getNameEN(ItemBaseData[itemBaseSkill['itemBaseId']]) + "&gt;" + '</ul>';
     } 
 	document.getElementById('list').innerHTML = result;
   }
