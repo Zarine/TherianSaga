@@ -82,6 +82,13 @@ function extractSkillSet(context) {
         var nameElement = skillElement.getElementsByTagName("name")[0];
 
 		extractName(skillElement, skill)
+		
+		var taskGroup = skillElement.getElementsByTagName("taskGroups")[0];
+		var numberOfTasks = taskGroup.getAttribute("count");
+		skill['tasks'] = [];
+		for (var j = 0; j < numberOfTasks; j++) {
+		  skill['tasks'][skill['tasks'].length] = taskGroup.getElementsByTagName("link")[j].getAttribute("id");
+		}
 
         _SkillData[skillElement.getAttribute("id")] = skill;
     }
@@ -109,6 +116,7 @@ function extractName(baseElement, mapItem) {
 	mapItem['nameFR'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
     if (nameElement.getElementsByTagName("text").length == 1) {
         mapItem['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+		console.log("Missing English name for: " + mapItem['nameEN']);
     } else {
         mapItem['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
     }
