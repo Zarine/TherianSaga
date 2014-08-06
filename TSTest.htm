@@ -8,8 +8,11 @@
 
 <script type="text/javascript">
 
-var itemBaseSkillData = {};
-var SkillData = {};
+var _ItemBaseSkillData = {};
+var _SkillData = {};
+var _ItemBaseSet = {};
+
+var _NoTranslation = {};
 
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -29,35 +32,12 @@ var SkillData = {};
 		  var context = xmlDoc.getElementsByTagName("context")[0];
 
 		  // itemBaseSkillSet
-		  var itemBaseSkillSet =  context.getElementsByTagName("itemBaseSkillSet")[0];
-		  var numberOfItem = itemBaseSkillSet.getAttribute("count");
-		  for(var i = 0; i < numberOfItem; i++)
-		  {
-		    var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i]
-			
-			var itemBaseSkill = {};
-			itemBaseSkill['value'] = itemBaseSkillElement.getAttribute("value");
-			itemBaseSkill['skillId'] = itemBaseSkillElement.getAttribute("skillId");
-			itemBaseSkill['itemBaseId'] = itemBaseSkillElement.getAttribute("itemBaseId");
-			itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
-			
-		    itemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
-	      }
+          itemBaseSkillSet(context)
 		  
 		  // skillSet
-		  var skillSet =  context.getElementsByTagName("skillSet")[0];
-		  numberOfItem = skillSet.getAttribute("count");
-		  for(var i = 0; i < numberOfItem; i++)
-		  {
-		    var skillElement = skillSet.getElementsByTagName("skill")[i]
-			
-			var skill = {};
-			var nameElement = skillElement.getElementsByTagName("name")[0];
-			
-			skill['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
-
-		    SkillData[skillElement.getAttribute("id")] = skill;
-	      }
+          extractSkillSet(context)
+		  
+		  extractItemBaseSet(context)
 		  
 		  display();
         };
@@ -70,11 +50,69 @@ var SkillData = {};
   
   function display() {
 	var result = "";
-	for (var itemBaseSkillId in itemBaseSkillData){
-	  var itemBaseSkill = itemBaseSkillData[itemBaseSkillId];
-      result +=  '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + itemBaseSkill['itemBaseId'] + "&gt;" + '</ul>';
+	for (var itemBaseSkillId in _ItemBaseSkillData){
+	  var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
+      result +=  '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + itemBaseSkill['itemBaseId'] + "&gt;" + '</ul>';
     } 
+	
 	document.getElementById('list').innerHTML = result;
+  }
+  
+  function itemBaseSkillSet(context) {
+		  var itemBaseSkillSet =  context.getElementsByTagName("itemBaseSkillSet")[0];
+		  var numberOfItem = itemBaseSkillSet.getAttribute("count");
+		  for(var i = 0; i < numberOfItem; i++)
+		  {
+		    var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i]
+			
+			var itemBaseSkill = {};
+			itemBaseSkill['value'] = itemBaseSkillElement.getAttribute("value");
+			itemBaseSkill['skillId'] = itemBaseSkillElement.getAttribute("skillId");
+			itemBaseSkill['itemBaseId'] = itemBaseSkillElement.getAttribute("itemBaseId");
+			itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
+			
+		    _ItemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
+	      }
+  }
+  
+  function extractSkillSet(context) {
+		  var skillSet =  context.getElementsByTagName("skillSet")[0];
+		  var numberOfItem = skillSet.getAttribute("count");
+		  for(var i = 0; i < numberOfItem; i++)
+		  {
+		    var skillElement = skillSet.getElementsByTagName("skill")[i]
+			
+			var skill = {};
+			var nameElement = skillElement.getElementsByTagName("name")[0];
+			
+			skill['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+
+		    _SkillData[skillElement.getAttribute("id")] = skill;
+	      }
+  }
+  
+  function extractItemBaseSet(context) {
+		  var itemBaseSet =  context.getElementsByTagName("itemBaseSet")[0];
+		  var numberOfItem = itemBaseSet.getAttribute("count");
+		  for(var i = 0; i < numberOfItem; i++)
+		  {
+		    var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i]
+			
+			var itemBase = {};
+			var nameElement = itemBaseElement.getElementsByTagName("name")[0];
+			
+			if(nameElement.getElementsByTagName("text").length == 1)
+			{
+			  itemBase['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+			  _NoTranslation[itemBaseElement.getAttribute("id")] = itemBase;
+			}
+			else
+			{
+			
+			  itemBase['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+            }
+		    _ItemBaseSet[itemBaseElement.getAttribute("id")] = itemBase;
+	      }
   }
   
   function getNameEN(dataElement) {
