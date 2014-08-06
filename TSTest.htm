@@ -81,7 +81,7 @@ function extractSkillSet(context) {
         var skill = {};
         var nameElement = skillElement.getElementsByTagName("name")[0];
 
-        skill['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+		extractName(skillElement, skill)
 
         _SkillData[skillElement.getAttribute("id")] = skill;
     }
@@ -96,15 +96,23 @@ function extractItemBaseSet(context) {
         var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i]
 
         var itemBase = {};
-        var nameElement = itemBaseElement.getElementsByTagName("name")[0];
 
-        if (nameElement.getElementsByTagName("text").length == 1) {
-            itemBase['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-        } else {
-            itemBase['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
-        }
+		extractName(itemBaseElement, itemBase)
+
         _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
     }
+}
+
+function extractName(baseElement, mapItem) {
+    var nameElement = baseElement.getElementsByTagName("name")[0];
+
+	mapItem['nameFR'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+    if (nameElement.getElementsByTagName("text").length == 1) {
+        mapItem['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+    } else {
+        mapItem['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+    }
+    return mapItem;
 }
 
 
@@ -119,6 +127,10 @@ function display() {
 
 function getNameEN(dataElement) {
     return dataElement['nameEN'];
+}
+
+function getNameFR(dataElement) {
+    return dataElement['nameFR'];
 }
 </script>
 
