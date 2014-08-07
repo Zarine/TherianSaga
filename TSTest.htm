@@ -90,6 +90,7 @@ function ParseFile(file) {
   extractSkillSet(context);
   extractItemBaseSet(context);
   extractItemTypeSet(context);
+  extractImageSet(context);
   
   removeOperationSelection();
   hideAllOutput();
@@ -99,7 +100,7 @@ function extractItemBaseSkillSet(context) {
     var itemBaseSkillSet = context.getElementsByTagName("itemBaseSkillSet")[0];
     var numberOfItem = itemBaseSkillSet.getAttribute("count");
     for (var i = 0; i < numberOfItem; i++) {
-        var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i]
+        var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i];
 
         var itemBaseSkill = {};
 		
@@ -117,7 +118,7 @@ function extractItemTypeSet(context) {
     var itemTypeSet = context.getElementsByTagName("itemTypeSet")[0];
     var numberOfItem = itemTypeSet.getAttribute("count");
     for (var i = 0; i < numberOfItem; i++) {
-        var itemTypeElement = itemTypeSet.getElementsByTagName("itemType")[i]
+        var itemTypeElement = itemTypeSet.getElementsByTagName("itemType")[i];
         var itemType = {};
 		
 		extractName(itemTypeElement, itemType);
@@ -142,7 +143,7 @@ function extractSkillSet(context) {
     var skillSet = context.getElementsByTagName("skillSet")[0];
     var numberOfItem = skillSet.getAttribute("count");
     for (var i = 0; i < numberOfItem; i++) {
-        var skillElement = skillSet.getElementsByTagName("skill")[i]
+        var skillElement = skillSet.getElementsByTagName("skill")[i];
         var skill = {};
 
 		extractName(skillElement, skill);
@@ -166,7 +167,7 @@ function extractItemBaseSet(context) {
     var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
     var numberOfItem = itemBaseSet.getAttribute("count");
     for (var i = 0; i < numberOfItem; i++) {
-        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i]
+        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
 
         var itemBase = {};
 
@@ -174,6 +175,19 @@ function extractItemBaseSet(context) {
 
         _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
     }
+}
+
+function extractImageSet(context) {
+    var imageSet = context.getElementsByTagName("imageSet")[0];
+    var numberOfItem = imageSet.getAttribute("count");
+    for (var i = 0; i < numberOfItem; i++) {
+	  var imageElement = imageSet.getElementsByTagName("image")[i];
+	  
+	  var image = {};
+	  image['path'] = imageElement.getAttribute("path");
+	  
+	  _ImageData[imageElement.getAttribute("id")] = image;
+	}
 }
 
 function extractFromAttributeWithDefault(baseElement, mapItem, name, def) {
@@ -254,7 +268,7 @@ function dumpItemTypeData() {
     var result = "";
     for (var itemTypeId in _ItemTypeData) {
         var ItemType = _ItemTypeData[itemTypeId];
-        result += '<ul>' + "Item type: &lt;" + getLocalizedName(ItemType) + "&gt; which is child of: &lt;" + getParentItemTypeName(ItemType) + "&gt; " + '</ul>';
+        result += '<ul><img src="' + getImage(ItemType) + '" >' + "Item type: &lt;" + getLocalizedName(ItemType) + "&gt; which is child of: &lt;" + getParentItemTypeName(ItemType) + "&gt; " + '</ul>';
     }
     document.getElementById('DumpOutputResult').innerHTML = result;
 }
@@ -304,6 +318,10 @@ function getParentItemTypeName(elementSource) {
   }
   if(_Language == 'FR') { return "Rien"; }
   else { return "Nothing"; }
+}
+
+function getImage(elmentSource) {
+  return "http://ttsassets.blob.core.windows.net/gameassets/Images/" + _ImageData[elmentSource["iconId"]]['path'];
 }
 
 function getNameEN(dataElement) {
