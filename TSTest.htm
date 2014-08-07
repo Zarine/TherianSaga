@@ -76,7 +76,8 @@ function ParseFile(file) {
 
   // itemBaseSkillSet
   itemBaseSkillSet(context)
-
+  // dungeonSet
+  extractDungeonSet(context)
   // skillSet
   extractSkillSet(context)
 
@@ -109,6 +110,30 @@ function itemBaseSkillSet(context) {
         itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
 
         _ItemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
+    }
+}
+
+function extractDungeonSet(context) {
+    var dungeonSet = context.getElementsByTagName("dungeonSet")[0];
+    var numberOfItem = dungeonSet.getAttribute("count");
+    for (var i = 0; i < numberOfItem; i++) {
+        var dungeonElement = dungeonSet.getElementsByTagName("dungeon")[i]
+
+        var dungeon = {};
+		
+        dungeon['mapName'] = dungeonElement.getAttribute("mapName");
+        
+        var unitBases = dungeonElement.getElementsByTagName("unitBases")[0];
+        var numberOfUnits = unitBases.getAttribute("count");
+        dungeon['unitBase'] = [];
+        for (var j = 0; i < numberOfUnits; i++) {
+            dungeon['unitBase'][dungeon['unitBase'].length] = unitBases.getElementsByTagName("link")[j].getAttribute("id");
+        }
+        
+        extractLocalizedText(dungeonElement, dungeon, "description");
+		extractName(dungeonElement, dungeon);
+
+        _DungeonData[dungeonElement.getAttribute("id")] = dungeon;
     }
 }
 
@@ -151,14 +176,19 @@ function extractItemBaseSet(context) {
 }
 
 function extractName(baseElement, mapItem) {
-    var nameElement = baseElement.getElementsByTagName("name")[0];
+    return extractLocalizedText(baseElement, mapItem, "name");
+}
 
-	mapItem['nameFR'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-    if (nameElement.getElementsByTagName("text").length == 1) {
-        mapItem['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-		console.log("Missing English name for: " + mapItem['nameEN']);
+function extractLocalizedText(baseElement, mapItem, tagname) {
+    var element = baseElement.getElementsByTagName(tagname)[0];
+    var keyEN = tagname + "EN";
+    var keyFR = tagname + "FR";    
+	mapItem[keyFR] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+    if (element.getElementsByTagName("text").length == 1) {
+        mapItem[keyEN] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+		console.log("Missing English name for: " + mapItem[keyEN]);
     } else {
-        mapItem['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+        mapItem[keyEN] = element.getElementsByTagName("text")[1].childNodes[0].nodeValue;
     }
     return mapItem;
 }
