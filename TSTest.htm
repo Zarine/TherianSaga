@@ -3,7 +3,7 @@
 <body>
 <div id="Main" class="main">
   <div id="LanguageSelection" class="languageSelection">
-    <div id="EN" class="language english" onclick="setLanguage(this)">English</div>
+    <div id="EN" class="language english selected" onclick="setLanguage(this)">English</div>
 	<div id="FR" class="language french" onclick="setLanguage(this)">French</div>
   </div>
   <div id="InputFileArea" class="inputFileArea">
@@ -16,9 +16,10 @@
   <div id="Output" class="allOutput">
     <div id="DumpOutput" class="output hidden" >
 	  <div id="SelectorDumpOutput" class="Selector">
-	    <select>
-          <option value="_ItemBaseSkillData">Item Base Skill Data</option>
-		  <option value="_SkillData">Skill Data</option>
+	    <select onchange="displayDump(this)">
+		  <option disabled selected value="">Please Select...</option>
+          <option value="dumpItemBaseSkillData">Item Base Skill Data</option>
+		  <option value="dumpSkillData">Skill Data</option>
         </select> 
 	  </div>
 	  <div id="DumpOutputResult" class="outputText"></div>
@@ -90,15 +91,6 @@ function ParseFile(file) {
   
   removeOperationSelection();
   hideAllOutput();
-}
-
-function dumpItemBaseSkillData() {
-    var result = "";
-    for (var itemBaseSkillId in _ItemBaseSkillData) {
-        var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
-        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getSkillName(itemBaseSkill) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
-    }
-    document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
 function extractItemBaseSkillSet(context) {
@@ -212,6 +204,33 @@ function resetData() {
   _ResidentData = {};
   _ZoneData = {};
 }
+
+////////////////
+// Dump display
+////////////////
+
+function displayDump(selector) {
+  var selectedValue = selector.options[selector.selectedIndex].value
+  if(selectedValue != "")
+  {
+    eval(selectedValue)();
+  }
+}
+
+function dumpItemBaseSkillData() {
+    var result = "";
+    for (var itemBaseSkillId in _ItemBaseSkillData) {
+        var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
+        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getSkillName(itemBaseSkill) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
+    }
+    document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
+function dumpSkillData() {
+    var result = "";
+    document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
 //////////////////////
 // Helper for display
 //////////////////////
@@ -252,7 +271,7 @@ function displayOutput(origin) {
 }
 
 function displayOperation() {
-  if(_CurrentOutput == "DumpOutput") { dumpItemBaseSkillData(); }
+  if(_CurrentOutput == "DumpOutput") { return;}
 }
 
 function hideAllOutput() {
