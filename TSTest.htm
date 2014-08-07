@@ -19,6 +19,7 @@
 	    <select id="SelectorDumpOutputComboBox" onchange="displayDump(this)">
 		  <option disabled selected value="">Please Select...</option>
           <option value="dumpItemBaseSkillData">Item Base Skill Data</option>
+		  <option value="dumpItemTypeData">Item Type Data</option>
 		  <option value="dumpSkillData">Skill Data</option>
         </select> 
 	  </div>
@@ -89,6 +90,7 @@ function ParseFile(file) {
   extractDungeonSet(context)
   extractSkillSet(context)
   extractItemBaseSet(context)
+  extractItemTypeSet(context);
   
   removeOperationSelection();
   hideAllOutput();
@@ -271,6 +273,15 @@ function dumpItemBaseSkillData() {
     document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
+function dumpItemTypeData() {
+    var result = "";
+    for (var itemTypeId in _ItemTypeData) {
+        var ItemType = _ItemTypeData[itemTypeId];
+        result += '<ul>' + "Item type: &lt;" + getLocalizedName(ItemType) + "&gt; which is child of: &lt;" + getParentItemTypeName(ItemType) + "&gt; " + '</ul>';
+    }
+    document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
 function dumpSkillData() {
     var result = "";
     document.getElementById('DumpOutputResult').innerHTML = result;
@@ -287,14 +298,35 @@ function setLanguage(button) {
   displayOperation();
 }
 
-function getItemBaseName(listSource) {
-  if(_Language == 'FR') { return getNameFR(_ItemBaseData[listSource['itemBaseId']]) }
-  else { return getNameEN(_ItemBaseData[listSource['itemBaseId']]) }
+function getLocalizedName(dataElement) {
+  if(_Language == 'FR') { return getNameFR(dataElement) }
+  else { return getNameEN(dataElement) }
 }
 
-function getSkillName(listSource) {
-  if(_Language == 'FR') { return getNameFR(_SkillData[listSource['skillId']]) }
-  else { return getNameEN(_SkillData[listSource['skillId']]) }
+
+function getItemBaseName(elementSource) {
+  if(_Language == 'FR') { return getNameFR(_ItemBaseData[elementSource['itemBaseId']]) }
+  else { return getNameEN(_ItemBaseData[elementSource['itemBaseId']]) }
+}
+
+function getSkillName(elementSource) {
+  if(_Language == 'FR') { return getNameFR(_SkillData[elementSource['skillId']]) }
+  else { return getNameEN(_SkillData[elementSource['skillId']]) }
+}
+
+function getItemTypeName(elementSource) {
+  if(_Language == 'FR') { return getNameFR(_ItemTypeData[elementSource['skillId']]) }
+  else { return getNameEN(_ItemTypeData[elementSource['skillId']]) }
+}
+
+function getParentItemTypeName(elementSource) {
+  var parentId = elementSource['parentItemTypeId'];
+  if(parentId != 0) {
+    if(_Language == 'FR') { return getNameFR(_ItemTypeData[parentId]); }
+    else { return getNameEN(_ItemTypeData[parentId]); }
+  }
+  if(_Language == 'FR') { return "Rien"; }
+  else { return "Nothing"; }
 }
 
 function getNameEN(dataElement) {
