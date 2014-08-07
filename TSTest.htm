@@ -14,7 +14,15 @@
 	<div id="Explore" class="operation explore" onclick="displayOutput(this)">Explore</div>
   </div>
   <div id="Output" class="allOutput">
-    <div id="DumpOutput" class="output hidden" ></div>
+    <div id="DumpOutput" class="output hidden" >
+	  <div id="SelectorDumpOutput" class="Selector">
+	    <select>
+          <option value="_ItemBaseSkillData">Item Base Skill Data</option>
+		  <option value="_SkillData">Skill Data</option>
+        </select> 
+	  </div>
+	  <div id="DumpOutputResult" class="outputText"></div>
+	</div>
     <div id="ExploreOutput" class="output hidden" ></div>
   </div>
 </div>
@@ -90,7 +98,7 @@ function dumpItemBaseSkillData() {
         var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
         result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getSkillName(itemBaseSkill) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
     }
-    document.getElementById('DumpOutput').innerHTML = result;
+    document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
 function extractItemBaseSkillSet(context) {
@@ -293,7 +301,14 @@ function removeClass( classname, element ) {
 }
 
 .inputFileArea {
+}
+
+.operationSelection, .languageSelection {
   margin: 20px 0;
+}
+
+.Selector {
+  text-align: center
 }
 
 .operation, .language {
