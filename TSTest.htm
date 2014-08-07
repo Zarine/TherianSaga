@@ -1,279 +1,286 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>TS super data displayer</title></head>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TS super data displayer</title>
+</head>
+
 <body>
-<div id="Main" class="main">
-  <div id="LanguageSelection" class="languageSelection">
-    <div id="EN" class="language english" onclick="setLanguage(this)">English</div>
-	<div id="FR" class="language french" onclick="setLanguage(this)">French</div>
-  </div>
-  <div id="InputFileArea" class="inputFileArea">
-    <input type="file" id="files" name="files[]" multiple />
-  </div>
-  <div id="OperationSelection" class="operationSelection">
-    <div id="Dump" class="operation dump" onclick="displayOutput(this)">Dump</div>
-	<div id="Explore" class="operation explore" onclick="displayOutput(this)">Explore</div>
-  </div>
-  <div id="Output" class="allOutput">
-    <div id="DumpOutput" class="output hidden" ></div>
-    <div id="ExploreOutput" class="output hidden" ></div>
-  </div>
-</div>
+    <div id="Main" class="main">
+        <div id="LanguageSelection" class="languageSelection">
+            <div id="EN" class="language english" onclick="setLanguage(this)">English</div>
+            <div id="FR" class="language french" onclick="setLanguage(this)">French</div>
+        </div>
+        <div id="InputFileArea" class="inputFileArea">
+            <input type="file" id="files" name="files[]" multiple />
+        </div>
+        <div id="OperationSelection" class="operationSelection">
+            <div id="Dump" class="operation dump" onclick="displayOutput(this)">Dump</div>
+            <div id="Explore" class="operation explore" onclick="displayOutput(this)">Explore</div>
+        </div>
+        <div id="Output" class="allOutput">
+            <div id="DumpOutput" class="output hidden"></div>
+            <div id="ExploreOutput" class="output hidden"></div>
+        </div>
+    </div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
+        var _ItemBaseSkillData = {};
+        var _DungeonData = {};
+        var _ItemTypeData = {};
+        var _ItemBaseData = {};
+        var _SiteData = {};
+        var _SkillData = {};
+        var _TaskGroupData = {};
+        var _TaskData = {};
+        var _RecipeData = {};
+        var _RecipeIngredientData = {};
+        var _UnitTypeData = {};
+        var _UnitBaseData = {};
+        var _ImageData = {};
+        var _TerritoryData = {};
+        var _RegionData = {};
+        var _AreaWildlifeData = {};
+        var _AreaResourceData = {};
+        var _LandformData = {};
+        var _UnitBaseSkillData = {};
+        var _StoreData = {};
+        var _ResidentData = {};
+        var _ZoneData = {};
 
-var _ItemBaseSkillData = {};
-var _DungeonData = {};
-var _ItemTypeData = {};
-var _ItemBaseData = {};
-var _SiteData = {};
-var _SkillData = {};
-var _TaskGroupData = {};
-var _TaskData = {};
-var _RecipeData = {};
-var _RecipeIngredientData = {};
-var _UnitTypeData = {};
-var _UnitBaseData = {};
-var _ImageData = {};
-var _TerritoryData = {};
-var _RegionData = {};
-var _AreaWildlifeData = {};
-var _AreaResourceData = {};
-var _LandformData = {};
-var _UnitBaseSkillData = {};
-var _StoreData = {};
-var _ResidentData = {};
-var _ZoneData = {};
+        var _Language = 'EN';
+        var _CurrentOutput = '';
 
-var _Language = 'EN';
-var _CurrentOutput = '';
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
 
-function handleFileSelect(evt) {
-    var files = evt.target.files; // FileList object
+            // files is a FileList of File objects. List some properties.
+            var output = [];
 
-    // files is a FileList of File objects. List some properties.
-    var output = [];
+            var file = files[0];
+            var reader = new FileReader();
 
-    var file = files[0];
-    var reader = new FileReader();
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+                return function(e) {
+                    ParseFile(e.target.result)
+                };
+            })(file);
 
-    // Closure to capture the file information.
-    reader.onload = (function(theFile) {
-        return function(e) {
-		    ParseFile(e.target.result)
-        };
-    })(file);
-
-    reader.readAsText(file);
-}
-
-document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
-function ParseFile(file) {
-  var parser = new DOMParser();
-  var xmlDoc = parser.parseFromString(file, "text/xml");
-
-  var context = xmlDoc.getElementsByTagName("context")[0];
-
-  // itemBaseSkillSet
-  itemBaseSkillSet(context)
-  // dungeonSet
-  extractDungeonSet(context)
-  // skillSet
-  extractSkillSet(context)
-
-  extractItemBaseSet(context)
-}
-
-function dumpItemBaseSkillData() {
-    var result = "";
-    for (var itemBaseSkillId in _ItemBaseSkillData) {
-        var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
-        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
-    }
-    document.getElementById('DumpOutput').innerHTML = result;
-}
-
-function itemBaseSkillSet(context) {
-    var itemBaseSkillSet = context.getElementsByTagName("itemBaseSkillSet")[0];
-    var numberOfItem = itemBaseSkillSet.getAttribute("count");
-    for (var i = 0; i < numberOfItem; i++) {
-        var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i]
-
-        var itemBaseSkill = {};
-		
-		var value = itemBaseSkillElement.getAttribute("value");
-		if(value == null) { value = 0; }
-        itemBaseSkill['value'] = value;
-		
-        itemBaseSkill['skillId'] = itemBaseSkillElement.getAttribute("skillId");
-        itemBaseSkill['itemBaseId'] = itemBaseSkillElement.getAttribute("itemBaseId");
-        itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
-
-        _ItemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
-    }
-}
-
-function extractDungeonSet(context) {
-    var dungeonSet = context.getElementsByTagName("dungeonSet")[0];
-    var numberOfItem = dungeonSet.getAttribute("count");
-    for (var i = 0; i < numberOfItem; i++) {
-        var dungeonElement = dungeonSet.getElementsByTagName("dungeon")[i]
-
-        var dungeon = {};
-		
-        dungeon['mapName'] = dungeonElement.getAttribute("mapName");
-        
-        var unitBases = dungeonElement.getElementsByTagName("unitBases")[0];
-        var numberOfUnits = unitBases.getAttribute("count");
-        dungeon['unitBase'] = [];
-        for (var j = 0; i < numberOfUnits; i++) {
-            dungeon['unitBase'][dungeon['unitBase'].length] = unitBases.getElementsByTagName("link")[j].getAttribute("id");
+            reader.readAsText(file);
         }
-        
-        extractLocalizedText(dungeonElement, dungeon, "description");
-		extractName(dungeonElement, dungeon);
 
-        _DungeonData[dungeonElement.getAttribute("id")] = dungeon;
-    }
-}
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
-function extractSkillSet(context) {
-    var skillSet = context.getElementsByTagName("skillSet")[0];
-    var numberOfItem = skillSet.getAttribute("count");
-    for (var i = 0; i < numberOfItem; i++) {
-        var skillElement = skillSet.getElementsByTagName("skill")[i]
+        function ParseFile(file) {
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(file, "text/xml");
 
-        var skill = {};
-        var nameElement = skillElement.getElementsByTagName("name")[0];
+            var context = xmlDoc.getElementsByTagName("context")[0];
 
-		extractName(skillElement, skill)
-		
-		var taskGroup = skillElement.getElementsByTagName("taskGroups")[0];
-		var numberOfTasks = taskGroup.getAttribute("count");
-		skill['task'] = [];
-		for (var j = 0; j < numberOfTasks; j++) {
-		  skill['task'][skill['task'].length] = taskGroup.getElementsByTagName("link")[j].getAttribute("id");
-		}
+            // itemBaseSkillSet
+            itemBaseSkillSet(context)
+                // dungeonSet
+            extractDungeonSet(context)
+                // skillSet
+            extractSkillSet(context)
 
-        _SkillData[skillElement.getAttribute("id")] = skill;
-    }
-}
+            extractItemBaseSet(context)
+        }
 
+        function dumpItemBaseSkillData() {
+            var result = "";
+            for (var itemBaseSkillId in _ItemBaseSkillData) {
+                var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
+                result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
+            }
+            document.getElementById('DumpOutput').innerHTML = result;
+        }
 
+        function itemBaseSkillSet(context) {
+            var itemBaseSkillSet = context.getElementsByTagName("itemBaseSkillSet")[0];
+            var numberOfItem = itemBaseSkillSet.getAttribute("count");
+            for (var i = 0; i < numberOfItem; i++) {
+                var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i]
 
-function extractItemBaseSet(context) {
-    var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
-    var numberOfItem = itemBaseSet.getAttribute("count");
-    for (var i = 0; i < numberOfItem; i++) {
-        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i]
+                var itemBaseSkill = {};
 
-        var itemBase = {};
+                var value = itemBaseSkillElement.getAttribute("value");
+                if (value == null) {
+                    value = 0;
+                }
+                itemBaseSkill['value'] = value;
 
-		extractName(itemBaseElement, itemBase)
+                itemBaseSkill['skillId'] = itemBaseSkillElement.getAttribute("skillId");
+                itemBaseSkill['itemBaseId'] = itemBaseSkillElement.getAttribute("itemBaseId");
+                itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
 
-        _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
-    }
-}
+                _ItemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
+            }
+        }
 
-function extractName(baseElement, mapItem) {
-    return extractLocalizedText(baseElement, mapItem, "name");
-}
+        function extractDungeonSet(context) {
+            var dungeonSet = context.getElementsByTagName("dungeonSet")[0];
+            var numberOfItem = dungeonSet.getAttribute("count");
+            for (var i = 0; i < numberOfItem; i++) {
+                var dungeonElement = dungeonSet.getElementsByTagName("dungeon")[i]
 
-function extractLocalizedText(baseElement, mapItem, tagname) {
-    var element = baseElement.getElementsByTagName(tagname)[0];
-    var keyEN = tagname + "EN";
-    var keyFR = tagname + "FR";    
-	mapItem[keyFR] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-    if (element.getElementsByTagName("text").length == 1) {
-        mapItem[keyEN] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-		console.log("Missing English name for: " + mapItem[keyEN]);
-    } else {
-        mapItem[keyEN] = element.getElementsByTagName("text")[1].childNodes[0].nodeValue;
-    }
-    return mapItem;
-}
-//////////////////////
-// Helper for display
-//////////////////////
+                var dungeon = {};
 
-function setLanguage(button) {
-  _Language = button.id;
-  displayOperation();
-}
+                dungeon['mapName'] = dungeonElement.getAttribute("mapName");
 
-function getItemBaseName(listSource) {
-  if(_Language == 'FR')
-  {
-    return getNameFR(_ItemBaseData[listSource['itemBaseId']])
-  }
-  else
-  {
-    return getNameEN(_ItemBaseData[listSource['itemBaseId']])
-  }
-}
+                var unitBases = dungeonElement.getElementsByTagName("unitBases")[0];
+                var numberOfUnits = unitBases.getAttribute("count");
+                dungeon['unitBase'] = [];
+                for (var j = 0; i < numberOfUnits; i++) {
+                    dungeon['unitBase'][dungeon['unitBase'].length] = unitBases.getElementsByTagName("link")[j].getAttribute("id");
+                }
 
-function getNameEN(dataElement) {
-    return dataElement['nameEN'];
-}
+                extractLocalizedText(dungeonElement, dungeon, "description");
+                extractName(dungeonElement, dungeon);
 
-function getNameFR(dataElement) {
-    return dataElement['nameFR'];
-}
+                _DungeonData[dungeonElement.getAttribute("id")] = dungeon;
+            }
+        }
 
-function displayOutput(origin) {
-  hideAllOutput();
-  _CurrentOutput = origin.id + 'Output';
-  removeClass("hidden", document.getElementById(_CurrentOutput));
-  
-  displayOperation();
-}
+        function extractSkillSet(context) {
+            var skillSet = context.getElementsByTagName("skillSet")[0];
+            var numberOfItem = skillSet.getAttribute("count");
+            for (var i = 0; i < numberOfItem; i++) {
+                var skillElement = skillSet.getElementsByTagName("skill")[i]
 
-function displayOperation() {
-  if(_CurrentOutput == "DumpOutput") { dumpItemBaseSkillData(); }
-}
+                var skill = {};
+                var nameElement = skillElement.getElementsByTagName("name")[0];
 
-function hideAllOutput() {
-  addClass("hidden", document.getElementById('DumpOutput'));
-  addClass("hidden", document.getElementById('ExploreOutput'));
-}
+                extractName(skillElement, skill)
+
+                var taskGroup = skillElement.getElementsByTagName("taskGroups")[0];
+                var numberOfTasks = taskGroup.getAttribute("count");
+                skill['task'] = [];
+                for (var j = 0; j < numberOfTasks; j++) {
+                    skill['task'][skill['task'].length] = taskGroup.getElementsByTagName("link")[j].getAttribute("id");
+                }
+
+                _SkillData[skillElement.getAttribute("id")] = skill;
+            }
+        }
 
 
-function addClass( classname, element ) {
-    var cn = element.className;
-    //test for existance
-    if( cn.indexOf( classname ) != -1 ) {
-    	return;
-    }
-    //add a space if the element already has class
-    if( cn != '' ) {
-    	classname = ' '+classname;
-    }
-    element.className = cn+classname;
-}
 
-function removeClass( classname, element ) {
-    var cn = element.className;
-    var rxp = new RegExp( "\\s?\\b"+classname+"\\b", "g" );
-    cn = cn.replace( rxp, '' );
-    element.className = cn;
-}
-</script>
+        function extractItemBaseSet(context) {
+            var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
+            var numberOfItem = itemBaseSet.getAttribute("count");
+            for (var i = 0; i < numberOfItem; i++) {
+                var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i]
 
-<style type="text/css">
-.hidden {
-  display: none;
-}
+                var itemBase = {};
 
-.inputFileArea {
-  margin: 20px 0;
-}
+                extractName(itemBaseElement, itemBase)
 
-.operation, .language {
-  display: inline;
-  padding: 5px;
-  border: solid 2px black;
-  border-radius: 10px;
-}
-  </style>
+                _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
+            }
+        }
 
-</body></html>
+        function extractName(baseElement, mapItem) {
+            return extractLocalizedText(baseElement, mapItem, "name");
+        }
+
+        function extractLocalizedText(baseElement, mapItem, tagname) {
+                var element = baseElement.getElementsByTagName(tagname)[0];
+                var keyEN = tagname + "EN";
+                var keyFR = tagname + "FR";
+                mapItem[keyFR] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+                if (element.getElementsByTagName("text").length == 1) {
+                    mapItem[keyEN] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+                    console.log("Missing English " + tagname + " for: " + mapItem[keyEN]);
+                } else {
+                    mapItem[keyEN] = element.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+                }
+                return mapItem;
+            }
+            //////////////////////
+            // Helper for display
+            //////////////////////
+
+        function setLanguage(button) {
+            _Language = button.id;
+            displayOperation();
+        }
+
+        function getItemBaseName(listSource) {
+            if (_Language == 'FR') {
+                return getNameFR(_ItemBaseData[listSource['itemBaseId']])
+            } else {
+                return getNameEN(_ItemBaseData[listSource['itemBaseId']])
+            }
+        }
+
+        function getNameEN(dataElement) {
+            return dataElement['nameEN'];
+        }
+
+        function getNameFR(dataElement) {
+            return dataElement['nameFR'];
+        }
+
+        function displayOutput(origin) {
+            hideAllOutput();
+            _CurrentOutput = origin.id + 'Output';
+            removeClass("hidden", document.getElementById(_CurrentOutput));
+
+            displayOperation();
+        }
+
+        function displayOperation() {
+            if (_CurrentOutput == "DumpOutput") {
+                dumpItemBaseSkillData();
+            }
+        }
+
+        function hideAllOutput() {
+            addClass("hidden", document.getElementById('DumpOutput'));
+            addClass("hidden", document.getElementById('ExploreOutput'));
+        }
+
+
+        function addClass(classname, element) {
+            var cn = element.className;
+            //test for existance
+            if (cn.indexOf(classname) != -1) {
+                return;
+            }
+            //add a space if the element already has class
+            if (cn != '') {
+                classname = ' ' + classname;
+            }
+            element.className = cn + classname;
+        }
+
+        function removeClass(classname, element) {
+            var cn = element.className;
+            var rxp = new RegExp("\\s?\\b" + classname + "\\b", "g");
+            cn = cn.replace(rxp, '');
+            element.className = cn;
+        }
+    </script>
+
+    <style type="text/css">
+        .hidden {
+            display: none;
+        }
+        .inputFileArea {
+            margin: 20px 0;
+        }
+        .operation,
+        .language {
+            display: inline;
+            padding: 5px;
+            border: solid 2px black;
+            border-radius: 10px;
+        }
+    </style>
+
+</body>
+
+</html>
