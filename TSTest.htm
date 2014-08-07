@@ -298,6 +298,10 @@ function dumpItemTypeData() {
 
 function dumpSkillData() {
     var result = "";
+	for (var skillId in _SkillData) {
+	  var skill = _SkillData[skillId];
+	  result += '<ul><img src="' + getImage(skill) + '" >' + "Skill: &lt;" + getLocalizedName(skill) + "&gt;" + '</ul>';
+	}
     document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
@@ -344,7 +348,12 @@ function getParentItemTypeName(elementSource) {
 }
 
 function getImage(elmentSource) {
-  return "http://ttsassets.blob.core.windows.net/gameassets/Images/" + _ImageData[elmentSource["iconId"]]['path'];
+  var IconId = elmentSource["iconId"];
+  if(IconId != 0)
+  {
+    return "http://ttsassets.blob.core.windows.net/gameassets/Images/" + _ImageData[elmentSource["iconId"]]['path'];
+  }
+  return "http://ttsassets.blob.core.windows.net/gameassets/Images/00600/00619.png";
 }
 
 function getNameEN(dataElement) {
