@@ -69,30 +69,31 @@ function handleFileSelect(evt) {
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
 function ParseFile(file) {
+  resetData();
+
   var parser = new DOMParser();
   var xmlDoc = parser.parseFromString(file, "text/xml");
 
   var context = xmlDoc.getElementsByTagName("context")[0];
 
-  // itemBaseSkillSet
-  itemBaseSkillSet(context)
-
-  // skillSet
+  extractItemBaseSkillSet(context)
   extractSkillSet(context)
-
   extractItemBaseSet(context)
+  
+  removeOperationSelection();
+  hideAllOutput();
 }
 
 function dumpItemBaseSkillData() {
     var result = "";
     for (var itemBaseSkillId in _ItemBaseSkillData) {
         var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
-        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
+        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getSkillName(itemBaseSkill) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
     }
     document.getElementById('DumpOutput').innerHTML = result;
 }
 
-function itemBaseSkillSet(context) {
+function extractItemBaseSkillSet(context) {
     var itemBaseSkillSet = context.getElementsByTagName("itemBaseSkillSet")[0];
     var numberOfItem = itemBaseSkillSet.getAttribute("count");
     for (var i = 0; i < numberOfItem; i++) {
@@ -162,24 +163,50 @@ function extractName(baseElement, mapItem) {
     }
     return mapItem;
 }
+
+function resetData() {
+  _ItemBaseSkillData = {};
+  _DungeonData = {};
+  _ItemTypeData = {};
+  _ItemBaseData = {};
+  _SiteData = {};
+  _SkillData = {};
+  _TaskGroupData = {};
+  _TaskData = {};
+  _RecipeData = {};
+  _RecipeIngredientData = {};
+  _UnitTypeData = {};
+  _UnitBaseData = {};
+  _ImageData = {};
+  _TerritoryData = {};
+  _RegionData = {};
+  _AreaWildlifeData = {};
+  _AreaResourceData = {};
+  _LandformData = {};
+  _UnitBaseSkillData = {};
+  _StoreData = {};
+  _ResidentData = {};
+  _ZoneData = {};
+}
 //////////////////////
 // Helper for display
 //////////////////////
 
 function setLanguage(button) {
   _Language = button.id;
+  removeLanguageSelection();
+  addClass("selected", button);
   displayOperation();
 }
 
 function getItemBaseName(listSource) {
-  if(_Language == 'FR')
-  {
-    return getNameFR(_ItemBaseData[listSource['itemBaseId']])
-  }
-  else
-  {
-    return getNameEN(_ItemBaseData[listSource['itemBaseId']])
-  }
+  if(_Language == 'FR') { return getNameFR(_ItemBaseData[listSource['itemBaseId']]) }
+  else { return getNameEN(_ItemBaseData[listSource['itemBaseId']]) }
+}
+
+function getSkillName(listSource) {
+  if(_Language == 'FR') { return getNameFR(_SkillData[listSource['skillId']]) }
+  else { return getNameEN(_SkillData[listSource['skillId']]) }
 }
 
 function getNameEN(dataElement) {
@@ -192,6 +219,8 @@ function getNameFR(dataElement) {
 
 function displayOutput(origin) {
   hideAllOutput();
+  removeOperationSelection();
+  addClass("selected", origin);
   _CurrentOutput = origin.id + 'Output';
   removeClass("hidden", document.getElementById(_CurrentOutput));
   
@@ -207,6 +236,15 @@ function hideAllOutput() {
   addClass("hidden", document.getElementById('ExploreOutput'));
 }
 
+function removeLanguageSelection() {
+  removeClass("selected", document.getElementById('EN'));
+  removeClass("selected", document.getElementById('FR'));
+}
+
+function removeOperationSelection() {
+  removeClass("selected", document.getElementById('Dump'));
+  removeClass("selected", document.getElementById('Explore'));
+}
 
 function addClass( classname, element ) {
     var cn = element.className;
@@ -232,6 +270,10 @@ function removeClass( classname, element ) {
 <style type="text/css">
 .hidden {
   display: none;
+}
+
+.selected {
+  background-color: #00bfff;
 }
 
 .inputFileArea {
