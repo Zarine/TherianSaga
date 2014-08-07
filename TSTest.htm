@@ -86,6 +86,7 @@ function ParseFile(file) {
   var context = xmlDoc.getElementsByTagName("context")[0];
 
   extractItemBaseSkillSet(context)
+  extractDungeonSet(context)
   extractSkillSet(context)
   extractItemBaseSet(context)
   
@@ -108,6 +109,23 @@ function extractItemBaseSkillSet(context) {
         itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
 
         _ItemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
+    }
+}
+
+function extractDungeonSet(context) {
+    var dungeonSet = context.getElementsByTagName("dungeonSet")[0];
+    var numberOfItem = dungeonSet.getAttribute("count");
+    for (var i = 0; i < numberOfItem; i++) {
+        var dungeonElement = dungeonSet.getElementsByTagName("dungeon")[i]
+
+        var dungeon = {};
+
+        dungeon['mapName'] = dungeonElement.getAttribute("mapName");
+        extractList(dungeonElement, dungeon, "unitBases");
+        extractLocalizedText(dungeonElement, dungeon, "description");
+        extractName(dungeonElement, dungeon);
+
+        _DungeonData[dungeonElement.getAttribute("id")] = dungeon;
     }
 }
 
@@ -181,17 +199,22 @@ function extractFromAttributeWithDefault(baseElement, mapItem, name, def) {
 }
 
 function extractName(baseElement, mapItem) {
-    var nameElement = baseElement.getElementsByTagName("name")[0];
+    return extractLocalizedText(baseElement, mapItem, "name");
+}
 
-	mapItem['nameFR'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-    if (nameElement.getElementsByTagName("text").length == 1) {
-        mapItem['nameEN'] = nameElement.getElementsByTagName("text")[0].childNodes[0].nodeValue;
-		console.log("Missing English name for: " + mapItem['nameEN']);
+function extractLocalizedText(baseElement, mapItem, tagname) {
+    var element = baseElement.getElementsByTagName(tagname)[0];
+    var keyEN = tagname + "EN";
+    var keyFR = tagname + "FR";
+    mapItem[keyFR] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+    if (element.getElementsByTagName("text").length == 1) {
+        mapItem[keyEN] = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
+        console.log("Missing English " + tagname + " for: " + mapItem[keyEN]);
     } else {
-        mapItem['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
+        mapItem[keyEN] = element.getElementsByTagName("text")[1].childNodes[0].nodeValue;
     }
     return mapItem;
-}
+}    
 
 function extractList(source, mapItem, name) {
   var element = source.getElementsByTagName(name)[0];
