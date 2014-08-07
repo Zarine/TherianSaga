@@ -118,18 +118,25 @@ function extractSkillSet(context) {
     var numberOfItem = skillSet.getAttribute("count");
     for (var i = 0; i < numberOfItem; i++) {
         var skillElement = skillSet.getElementsByTagName("skill")[i]
-
         var skill = {};
-        var nameElement = skillElement.getElementsByTagName("name")[0];
 
 		extractName(skillElement, skill)
 		
-		var taskGroup = skillElement.getElementsByTagName("taskGroups")[0];
-		var numberOfTasks = taskGroup.getAttribute("count");
-		skill['task'] = [];
-		for (var j = 0; j < numberOfTasks; j++) {
-		  skill['task'][skill['task'].length] = taskGroup.getElementsByTagName("link")[j].getAttribute("id");
-		}
+		// sequence Order attribut
+		var sequenceOrder = skillElement.getAttribute("sequenceOrder");
+		if(sequenceOrder == null) { sequenceOrder = 0; }
+        skill['sequenceOrder'] = sequenceOrder;
+		
+		// icon
+		var icon = skillElement.getAttribute("iconId");
+		if(icon == null) { icon = ""; }
+        skill['iconId'] = icon;
+
+		extractList(skillElement, skill, "usedByItemTypes");
+		extractList(skillElement, skill, "usedByUnitBaseSkills");
+		extractList(skillElement, skill, "usedByItemBaseSkills");
+		extractList(skillElement, skill, "taskGroups");
+		extractList(skillElement, skill, "subSkills");
 
         _SkillData[skillElement.getAttribute("id")] = skill;
     }
@@ -162,6 +169,15 @@ function extractName(baseElement, mapItem) {
         mapItem['nameEN'] = nameElement.getElementsByTagName("text")[1].childNodes[0].nodeValue;
     }
     return mapItem;
+}
+
+function extractList(source, mapItem, name) {
+  var element = source.getElementsByTagName(name)[0];
+  var count = element.getAttribute("count");
+  mapItem[name] = [];
+  for (var i = 0; i < count; i++) {
+    mapItem[name][mapItem[name].length] = element.getElementsByTagName("link")[i].getAttribute("id");
+  }
 }
 
 function resetData() {
