@@ -2,12 +2,16 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>TS super data displayer</title></head>
 <body>
 <div id="Main" class="main">
+  <div id="LanguageSelection" class="languageSelection">
+    <div id="EN" class="language english" onclick="setLanguage(this)">English</div>
+	<div id="FR" class="language french" onclick="setLanguage(this)">French</div>
+  </div>
   <div id="InputFileArea" class="inputFileArea">
     <input type="file" id="files" name="files[]" multiple />
   </div>
   <div id="OperationSelection" class="operationSelection">
-    <div id="DumpOperation" class="operation dump" onclick="displayDumpOutput()">Dump</div>
-	<div id="ExploreOperation" class="operation explore" onclick="displayExploreOutput()">Explore</div>
+    <div id="Dump" class="operation dump" onclick="displayOutput(this)">Dump</div>
+	<div id="Explore" class="operation explore" onclick="displayOutput(this)">Explore</div>
   </div>
   <div id="Output" class="allOutput">
     <div id="DumpOutput" class="output hidden" ></div>
@@ -18,8 +22,30 @@
 <script type="text/javascript">
 
 var _ItemBaseSkillData = {};
-var _SkillData = {};
+var _DungeonData = {};
+var _ItemTypeData = {};
 var _ItemBaseData = {};
+var _SiteData = {};
+var _SkillData = {};
+var _TaskGroupData = {};
+var _TaskData = {};
+var _RecipeData = {};
+var _RecipeIngredientData = {};
+var _UnitTypeData = {};
+var _UnitBaseData = {};
+var _ImageData = {};
+var _TerritoryData = {};
+var _RegionData = {};
+var _AreaWildlifeData = {};
+var _AreaResourceData = {};
+var _LandformData = {};
+var _UnitBaseSkillData = {};
+var _StoreData = {};
+var _ResidentData = {};
+var _ZoneData = {};
+
+var _Language = 'EN';
+var _CurrentOutput = '';
 
 function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -33,7 +59,7 @@ function handleFileSelect(evt) {
     // Closure to capture the file information.
     reader.onload = (function(theFile) {
         return function(e) {
-		    ParseAndDisplay(e.target.result)
+		    ParseFile(e.target.result)
         };
     })(file);
 
@@ -42,7 +68,7 @@ function handleFileSelect(evt) {
 
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
-function ParseAndDisplay(file) {
+function ParseFile(file) {
   var parser = new DOMParser();
   var xmlDoc = parser.parseFromString(file, "text/xml");
 
@@ -55,15 +81,13 @@ function ParseAndDisplay(file) {
   extractSkillSet(context)
 
   extractItemBaseSet(context)
-
-  display();
 }
 
-function display() {
+function dumpItemBaseSkillData() {
     var result = "";
     for (var itemBaseSkillId in _ItemBaseSkillData) {
         var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
-        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getNameEN(_ItemBaseData[itemBaseSkill['itemBaseId']]) + "&gt;" + '</ul>';
+        result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getNameEN(_SkillData[itemBaseSkill['skillId']]) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
     }
     document.getElementById('DumpOutput').innerHTML = result;
 }
@@ -75,7 +99,11 @@ function itemBaseSkillSet(context) {
         var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i]
 
         var itemBaseSkill = {};
-        itemBaseSkill['value'] = itemBaseSkillElement.getAttribute("value");
+		
+		var value = itemBaseSkillElement.getAttribute("value");
+		if(value == null) { value = 0; }
+        itemBaseSkill['value'] = value;
+		
         itemBaseSkill['skillId'] = itemBaseSkillElement.getAttribute("skillId");
         itemBaseSkill['itemBaseId'] = itemBaseSkillElement.getAttribute("itemBaseId");
         itemBaseSkill['isProxy'] = itemBaseSkillElement.getAttribute("isProxy");
@@ -134,6 +162,25 @@ function extractName(baseElement, mapItem) {
     }
     return mapItem;
 }
+//////////////////////
+// Helper for display
+//////////////////////
+
+function setLanguage(button) {
+  _Language = button.id;
+  displayOperation();
+}
+
+function getItemBaseName(listSource) {
+  if(_Language == 'FR')
+  {
+    return getNameFR(_ItemBaseData[listSource['itemBaseId']])
+  }
+  else
+  {
+    return getNameEN(_ItemBaseData[listSource['itemBaseId']])
+  }
+}
 
 function getNameEN(dataElement) {
     return dataElement['nameEN'];
@@ -143,15 +190,16 @@ function getNameFR(dataElement) {
     return dataElement['nameFR'];
 }
 
-
-function displayDumpOutput() {
+function displayOutput(origin) {
   hideAllOutput();
-  removeClass("hidden", document.getElementById('DumpOutput'));
+  _CurrentOutput = origin.id + 'Output';
+  removeClass("hidden", document.getElementById(_CurrentOutput));
+  
+  displayOperation();
 }
 
-function displayExploreOutput() {
-  hideAllOutput();
-  removeClass("hidden", document.getElementById('ExploreOutput'));
+function displayOperation() {
+  if(_CurrentOutput == "DumpOutput") { dumpItemBaseSkillData(); }
 }
 
 function hideAllOutput() {
@@ -187,10 +235,10 @@ function removeClass( classname, element ) {
 }
 
 .inputFileArea {
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
-.operation {
+.operation, .language {
   display: inline;
   padding: 5px;
   border: solid 2px black;
