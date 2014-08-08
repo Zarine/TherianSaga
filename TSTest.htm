@@ -221,7 +221,7 @@ function extractTaskGroupSet(context) {
 
         var taskGroup = {}
         taskGroup['iconId'] = taskGroupElement.getAttribute("iconId");
-        taskGroup['sequenceOrder'] = taskGroupElement.getAttribute("sequenceOrder");
+		extractFromAttributeWithDefault(taskGroupElement, taskGroup, "sequenceOrder", 0);
 		extractList(taskGroupElement, taskGroup, "tasks");
 		extractName(taskGroupElement, taskGroup)
 
