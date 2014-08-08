@@ -21,6 +21,7 @@
           <option value="dumpItemBaseSkillData">Item Base Skill Data</option>
 		  <option value="dumpItemTypeData">Item Type Data</option>
 		  <option value="dumpSkillData">Skill Data</option>
+		  <option value="dumpTaskGroupData">Task Group Data</option>
         </select> 
 	  </div>
 	  <div id="DumpOutputResult" class="outputText"></div>
@@ -88,10 +89,12 @@ function ParseFile(file) {
 
   extractItemBaseSkillSet(context)
   extractDungeonSet(context)
-  extractSkillSet(context)
   extractItemBaseSet(context)
-  extractItemTypeSet(context);
-  extractImageSet(context);
+  extractItemTypeSet(context)
+  extractSiteSet(context)
+  extractSkillSet(context)
+  extractTaskGroupSet(context)
+  extractImageSet(context)
   
   removeOperationSelection();
   hideAllOutput();
@@ -157,6 +160,37 @@ function extractItemTypeSet(context) {
 	}
 }
 
+function extractSiteSet(context) {
+    var siteSet = context.getElementsByTagName("siteSet")[0]
+    var numberOfItem = siteSet.getAttribute("count")
+    for (var i = 0; i < numberOfItem; i++) {
+        var siteElement = siteSet.getElementsByTagName("site")[i]
+
+        var site = {}
+        site['signId'] = siteElement.getAttribute("signId");
+        site['signIconId'] = siteElement.getAttribute("signIconId");
+		extractList(siteElement, site, "zones");
+		extractList(siteElement, site, "residents");
+		extractName(siteElement, site)
+
+        _SiteData[siteElement.getAttribute("id")] = site
+    }
+}
+
+function extractItemBaseSet(context) {
+    var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
+    var numberOfItem = itemBaseSet.getAttribute("count");
+    for (var i = 0; i < numberOfItem; i++) {
+        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
+
+        var itemBase = {};
+
+		extractName(itemBaseElement, itemBase)
+
+        _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
+    }
+}
+
 function extractSkillSet(context) {
     var skillSet = context.getElementsByTagName("skillSet")[0];
     var numberOfItem = skillSet.getAttribute("count");
@@ -179,19 +213,19 @@ function extractSkillSet(context) {
     }
 }
 
-
-
-function extractItemBaseSet(context) {
-    var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
-    var numberOfItem = itemBaseSet.getAttribute("count");
+function extractTaskGroupSet(context) {
+    var taskGroupSet = context.getElementsByTagName("taskGroupSet")[0]
+    var numberOfItem = taskGroupSet.getAttribute("count")
     for (var i = 0; i < numberOfItem; i++) {
-        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
+        var taskGroupElement = taskGroupSet.getElementsByTagName("taskGroup")[i]
 
-        var itemBase = {};
+        var taskGroup = {}
+        taskGroup['iconId'] = taskGroupElement.getAttribute("iconId");
+        taskGroup['sequenceOrder'] = taskGroupElement.getAttribute("sequenceOrder");
+		extractList(taskGroupElement, taskGroup, "tasks");
+		extractName(taskGroupElement, taskGroup)
 
-		extractName(itemBaseElement, itemBase)
-
-        _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
+        _TaskGroupData[taskGroupElement.getAttribute("id")] = taskGroup
     }
 }
 
@@ -302,6 +336,15 @@ function dumpSkillData() {
 	  var skill = _SkillData[skillId];
 	  result += '<ul><img src="' + getImage(skill) + '" >' + "Skill: &lt;" + getLocalizedName(skill) + "&gt;" + '</ul>';
 	}
+    document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
+function dumpTaskGroupData() {
+    var result = "";
+    for (var taskGroupId in _TaskGroupData) {
+        var taskGroup = _TaskGroupData[taskGroupId];
+        result += '<ul><img src="' + getImage(taskGroup) + '" >' + "Task group: &lt;" + getLocalizedName(taskGroup) + "&gt; " + '</ul>';
+    }
     document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
