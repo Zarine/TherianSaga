@@ -95,14 +95,17 @@
 
       var context = xmlDoc.getElementsByTagName("context")[0];
 
-      extractItemBaseSkillSet(context)
-      extractDungeonSet(context)
-      extractItemBaseSet(context)
-      extractItemTypeSet(context)
-      extractSiteSet(context)
-      extractSkillSet(context)
-      extractTaskGroupSet(context)
-      extractImageSet(context)
+      extractItemBaseSkillSet(context);
+      extractDungeonSet(context);
+      extractItemBaseSet(context);
+      extractItemTypeSet(context);
+      extractSiteSet(context);
+      extractSkillSet(context);
+      extractTaskGroupSet(context);
+      extractImageSet(context);
+	  
+	  extractResidentSet(context);
+	  extractZoneSet(context);
 
       removeOperationSelection();
       hideAllOutput();
@@ -249,6 +252,45 @@
         _ImageData[imageElement.getAttribute("id")] = image;
       }
     }
+	
+    function extractResidentSet(context) {
+      var residentSet = context.getElementsByTagName("residentSet")[0];
+      var numberOfItem = residentSet.getAttribute("count");
+      for (var i = 0; i < numberOfItem; i++) {
+        var residentElement = residentSet.getElementsByTagName("resident")[i];
+
+        var resident = {};
+        extractFromAttributeWithDefault(residentElement, resident, "siteId", 0);
+		extractFromAttributeWithDefault(residentElement, resident, "iconId", 0);
+		extractFromAttributeWithDefault(residentElement, resident, "imageId", 0);
+		
+		extractList(residentElement, resident, "stores");
+		
+		extractName(residentElement, resident)
+
+        _ResidentData[residentElement.getAttribute("id")] = resident;
+      }
+    }
+	
+    function extractZoneSet(context) {
+      var zoneSet = context.getElementsByTagName("zoneSet")[0];
+      var numberOfItem = zoneSet.getAttribute("count");
+      for (var i = 0; i < numberOfItem; i++) {
+        var zoneElement = zoneSet.getElementsByTagName("zone")[i];
+
+        var zone = {};
+		extractFromAttributeWithDefault(zoneElement, zone, "siteId", 0);
+		extractFromAttributeWithDefault(zoneElement, zone, "parentZoneId", 0);
+		
+		extractList(zoneElement, zone, "zones");
+		extractList(zoneElement, zone, "residents");
+
+		extractName(zoneElement, zone)
+
+        _ZoneData[zoneElement.getAttribute("id")] = zone;
+      }
+    }
+	
 
     function extractFromAttributeWithDefault(baseElement, mapItem, name, def) {
       var attribut = baseElement.getAttribute(name);
