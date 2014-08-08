@@ -21,6 +21,7 @@
           <option value="dumpItemBaseSkillData">Item Base Skill Data</option>
 		  <option value="dumpItemTypeData">Item Type Data</option>
 		  <option value="dumpSkillData">Skill Data</option>
+		  <option value="dumpTaskGroupData">Task Group Data</option>
         </select> 
 	  </div>
 	  <div id="DumpOutputResult" class="outputText"></div>
@@ -335,6 +336,15 @@ function dumpSkillData() {
 	  var skill = _SkillData[skillId];
 	  result += '<ul><img src="' + getImage(skill) + '" >' + "Skill: &lt;" + getLocalizedName(skill) + "&gt;" + '</ul>';
 	}
+    document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
+function dumpTaskGroupData() {
+    var result = "";
+    for (var taskGroupId in _TaskGroupData) {
+        var taskGroup = _TaskGroupData[taskGroupId];
+        result += '<ul><img src="' + getImage(taskGroup) + '" >' + "Task group: &lt;" + getLocalizedName(taskGroup) + "&gt; " + '</ul>';
+    }
     document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
