@@ -92,6 +92,7 @@ function ParseFile(file) {
   extractItemTypeSet(context)
   extractSiteSet(context)
   extractSkillSet(context)
+  extractTaskGroupSet(context)
   extractImageSet(context)
   
   removeOperationSelection();
@@ -208,6 +209,22 @@ function extractSkillSet(context) {
 		extractList(skillElement, skill, "subSkills");
 
         _SkillData[skillElement.getAttribute("id")] = skill;
+    }
+}
+
+function extractTaskGroupSet(context) {
+    var taskGroupSet = context.getElementsByTagName("taskGroupSet")[0]
+    var numberOfItem = taskGroupSet.getAttribute("count")
+    for (var i = 0; i < numberOfItem; i++) {
+        var taskGroupElement = taskGroupSet.getElementsByTagName("taskGroup")[i]
+
+        var taskGroup = {}
+        taskGroup['iconId'] = taskGroupElement.getAttribute("iconId");
+        taskGroup['sequenceOrder'] = taskGroupElement.getAttribute("sequenceOrder");
+		extractList(taskGroupElement, taskGroup, "tasks");
+		extractName(taskGroupElement, taskGroup)
+
+        _TaskGroupData[taskGroupElement.getAttribute("id")] = taskGroup
     }
 }
 
