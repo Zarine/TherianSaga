@@ -97,6 +97,8 @@ function ParseFile(file) {
   extractSiteSet(context)
   extractSkillSet(context)
   extractTaskGroupSet(context)
+  extractTaskSet(context)
+  extractRecipeSet(context)
   extractImageSet(context)
   
   removeOperationSelection();
@@ -224,7 +226,7 @@ function extractTaskGroupSet(context) {
 
         var taskGroup = {}
         taskGroup['iconId'] = taskGroupElement.getAttribute("iconId");
-		extractFromAttributeWithDefault(taskGroupElement, taskGroup, "sequenceOrder", 0);
+		extractFromAttributeWithDefault(taskGroupElement, taskGroup, "sequenceOrder", 0)
 		extractList(taskGroupElement, taskGroup, "tasks");
 		extractName(taskGroupElement, taskGroup)
 
@@ -232,6 +234,50 @@ function extractTaskGroupSet(context) {
     }
 }
 
+function extractTaskSet(context) {
+    var taskSet = context.getElementsByTagName("taskSet")[0]
+    var numberOfItem = taskSet.getAttribute("count")
+    for (var i = 0; i < numberOfItem; i++) {
+        var taskElement = taskSet.getElementsByTagName("task")[i]
+
+        var task = {}
+
+        task['duration'] = taskElement.getAttribute("duration")
+        task['skillId'] = taskElement.getAttribute("skillId")
+		extractFromAttributeWithDefault(taskElement, task, "recipeId", 0)
+		extractFromAttributeWithDefault(taskElement, task, "producedItemBase", 0)
+		extractFromAttributeWithDefault(taskElement, task, "effort", 0)
+		extractFromAttributeWithDefault(taskElement, task, "producedIUnitBase", 0)
+		extractFromAttributeWithDefault(taskElement, task, "difficulty", 0)
+		extractFromAttributeWithDefault(taskElement, task, "cooldown", 0)
+		extractName(taskElement, task)
+
+        _TaskData[taskElement.getAttribute("id")] = task
+    }
+}
+
+function extractRecipeSet(context) {
+    var recipeSet = context.getElementsByTagName("recipeSet")[0]
+    var numberOfItem = recipeSet.getAttribute("count")
+    for (var i = 0; i < numberOfItem; i++) {
+        var recipeElement = recipeSet.getElementsByTagName("recipe")[i]
+
+        var recipe = {}
+        
+		extractFromAttributeWithDefault(recipeElement, recipe, "representedByItemBaseId", 0)
+		extractFromAttributeWithDefault(recipeElement, recipe, "producedItemBaseId", 0)
+		extractFromAttributeWithDefault(recipeElement, recipe, "isDiscoverable", 0)
+        extractList(recipeElement, recipe, "useInTasks")
+        extractList(recipeElement, recipe, "ingredients")
+		extractName(recipeElement, recipe)
+        
+        if (recipe['producedItemBaseId'] == 0)
+        {
+           console.log("Missing producedItemBaseId for: " + recipe['nameEN'])
+        }
+    }
+}
+        
 function extractImageSet(context) {
     var imageSet = context.getElementsByTagName("imageSet")[0];
     var numberOfItem = imageSet.getAttribute("count");
