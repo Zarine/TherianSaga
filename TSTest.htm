@@ -88,10 +88,11 @@ function ParseFile(file) {
 
   extractItemBaseSkillSet(context)
   extractDungeonSet(context)
-  extractSkillSet(context)
   extractItemBaseSet(context)
-  extractItemTypeSet(context);
-  extractImageSet(context);
+  extractItemTypeSet(context)
+  extractSiteSet(context)
+  extractSkillSet(context)
+  extractImageSet(context)
   
   removeOperationSelection();
   hideAllOutput();
@@ -157,6 +158,37 @@ function extractItemTypeSet(context) {
 	}
 }
 
+function extractSiteSet(context) {
+    var siteSet = context.getElementsByTagName("siteSet")[0]
+    var numberOfItem = siteSet.getAttribute("count")
+    for (var i = 0; i < numberOfItem; i++) {
+        var siteElement = siteSet.getElementsByTagName("site")[i]
+
+        var site = {}
+        site['signId'] = siteElement.getAttribute("signId");
+        site['signIconId'] = siteElement.getAttribute("signIconId");
+		extractList(siteElement, site, "zones");
+		extractList(siteElement, site, "residents");
+		extractName(siteElement, site)
+
+        _SiteData[siteElement.getAttribute("id")] = site
+    }
+}
+
+function extractItemBaseSet(context) {
+    var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
+    var numberOfItem = itemBaseSet.getAttribute("count");
+    for (var i = 0; i < numberOfItem; i++) {
+        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
+
+        var itemBase = {};
+
+		extractName(itemBaseElement, itemBase)
+
+        _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
+    }
+}
+
 function extractSkillSet(context) {
     var skillSet = context.getElementsByTagName("skillSet")[0];
     var numberOfItem = skillSet.getAttribute("count");
@@ -176,22 +208,6 @@ function extractSkillSet(context) {
 		extractList(skillElement, skill, "subSkills");
 
         _SkillData[skillElement.getAttribute("id")] = skill;
-    }
-}
-
-
-
-function extractItemBaseSet(context) {
-    var itemBaseSet = context.getElementsByTagName("itemBaseSet")[0];
-    var numberOfItem = itemBaseSet.getAttribute("count");
-    for (var i = 0; i < numberOfItem; i++) {
-        var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
-
-        var itemBase = {};
-
-		extractName(itemBaseElement, itemBase)
-
-        _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
     }
 }
 
