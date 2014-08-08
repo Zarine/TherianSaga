@@ -26,8 +26,11 @@
 	  </div>
 	  <div id="DumpOutputResult" class="outputText"></div>
 	</div>
-    <div id="ExploreOutput" class="output hidden" ></div>
+    <div id="ExploreOutput" class="output hidden" >
+	  <div id="ExploreOutputResult" class="outputExplore"></div>
+	</div>
   </div>
+  <div id="Test" class="exploreItem"  objectId="3a1c9e5f-b4b6-e211-be8c-782bcb902040" onclick="exploreDisplaySkill(this)">Helper For Test</div>
 </div>
 
 <script type="text/javascript">
@@ -352,7 +355,53 @@ function dumpTaskGroupData() {
 // Explore display
 //////////////////
 
-function displayExplore() {
+function exploreDisplaySkill(element) {
+  var skillId = element.getAttribute("objectId");
+  var skill = _SkillData[skillId];
+  
+  var result = '';
+  
+  // First set a Title
+  result += '<img src="' + getImage(skill) + '" ><h1 class="exploreTitle title" id="Skill_' + skillId + '">' + getLocalizedName(skill) + '</h1>';
+  
+  result += exploreDisplayList(skill, 'usedByItemTypes');
+  //exploreDisplayList(skill, 'usedByUnitBaseSkills');
+  //exploreDisplayList(skill, 'usedByItemBaseSkills');
+  //exploreDisplayList(skill, 'subSkills');
+  //exploreDisplayList(skill, 'taskGroups');
+  
+  document.getElementById('ExploreOutputResult').innerHTML = result;
+}
+
+function exploreDisplayList(elementSource, listType) {
+  var result = "";
+  var listToDisplay = elementSource[listType];
+  if(listToDisplay.length != 0) {
+    result += titleForCategoryExplore(listType);
+	for (var i = 0; i < listToDisplay.length; i++)
+	{
+	  result += eval(listType + "DisplayInformation")(listToDisplay[i]);
+	}
+	result += '</div>';
+  }
+  return result;
+}
+
+function titleForCategoryExplore(type) {
+  var result = '<div>';
+  result += '<h2 class="subTitle exploreSubTitle">' + type + '</h2>';
+  return result;
+}
+
+function usedByItemTypesDisplayInformation(id) {
+  var result = "";
+  
+  var usedByItemTypes = _ItemTypeData[id];
+  result += '<div class="exploreItem" onclick="exploreDisplayItemType(this)" objectId="' + id + '">'
+  result += '<img src="' + getImage(usedByItemTypes) + '" >Item type: &lt;' + getLocalizedName(usedByItemTypes) + '&gt; which is child of: &lt;' + getParentItemTypeName(usedByItemTypes) + '&gt;';
+  
+  result += '</div>';
+  return result;
 }
 
 //////////////////////
@@ -489,6 +538,15 @@ function removeClass( classname, element ) {
   padding: 5px;
   border: solid 2px black;
   border-radius: 10px;
+  cursor:pointer;
+}
+
+h1 {
+  display: inline;
+}
+
+.exploreItem {
+  cursor:pointer;
 }
   </style>
 
