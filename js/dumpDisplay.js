@@ -10,10 +10,24 @@ function displayDump(selector) {
 }
 
 function dumpItemBaseSkillData() {
-  var result = '<table><tr><th>Item</th><th>Skill</th><th>Value</th><th>ID</th></tr>';
+  var result = '<table class="dumpTable dumpTable-ItemBaseSkill"><tr><th class="dumpTableHeader dumpTableHeader-ItemBaseSkill">Item</th><th class="dumpTableHeader dumpTableHeader-ItemBaseSkill">Skill</th><th class="dumpTableHeader dumpTableHeader-ItemBaseSkill">Value</th><th class="dumpTableHeader dumpTableHeader-ItemBaseSkill">ID</th></tr>';
   for (var itemBaseSkillId in _ItemBaseSkillData) {
     var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
-    result += '<tr><td>' + getItemBaseName(itemBaseSkill) + '</td><td>' + getSkillName(itemBaseSkill) + '</td><td>' + itemBaseSkill['value'] + '</td><td>' + itemBaseSkillId + '</td></tr>';
+    result += '<tr class="dumpTableElement dumpTableElement-ItemBaseSkill">';
+    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + getItemBaseName(itemBaseSkill) + '</td>'
+    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + getSkillName(itemBaseSkill) + '</td>'
+    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + itemBaseSkill['value'] + '</td>'
+    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + itemBaseSkillId + '</td></tr>';
+  }
+  result += '</table>'
+  document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
+function dumpDungeonData() {
+  var result = '<table><tr><th>Dungeon</th><th>ID</th></tr>';
+  for (var dungeonId in _DungeonData) {
+    var dungeon = _DungeonData[dungeonId];
+    result += '<tr><td>' + getLocalizedName(dungeon) + '</td><td>' + dungeonId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -24,6 +38,16 @@ function dumpItemTypeData() {
   for (var itemTypeId in _ItemTypeData) {
     var ItemType = _ItemTypeData[itemTypeId];
     result += '<tr><td><img src="' + getImage(ItemType) + '" ></td><td>' + getLocalizedName(ItemType) + '</td><td>' + getParentItemTypeName(ItemType) + '</td><td>' + itemTypeId + '</td></tr>';
+  }
+  result += '</table>'
+  document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
+function dumpItemBaseData() {
+  var result = '<table><tr><th>Icon</th><th>Name</th><th>Item type</th><th>ID</th></tr>';
+  for (var itemBaseId in _ItemBaseData) {
+    var itemBase = _ItemBaseData[itemBaseId];
+    result += '<tr><td><img src="' + getImage(itemBase) + '" ></td><td>' + getLocalizedName(itemBase) + '</td><td>' + getLocalizedName(_ItemTypeData[itemBase['itemTypeId']]) + '</td><td>' + itemBaseId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -44,6 +68,16 @@ function dumpTaskGroupData() {
   for (var taskGroupId in _TaskGroupData) {
     var taskGroup = _TaskGroupData[taskGroupId];
     result += '<tr><td><img src="' + getImage(taskGroup) + '" ></td><td>' + getLocalizedName(taskGroup) + '</td><td>' + taskGroupId + '</td></tr>';
+  }
+  result += '</table>'
+  document.getElementById('DumpOutputResult').innerHTML = result;
+}
+
+function dumpTaskData() {
+  var result = '<table><tr><th>Name</th><th>Skill</th><th>Duration</th><th>Effort</th><th>Difficulty</th><th>ID</th></tr>';
+  for (var taskId in _TaskData) {
+    var task = _TaskData[taskId];
+    result += '<tr><td>' + getLocalizedName(task) + '</td><td>' + getLocalizedName(_SkillData[task['skillId']]) + '</td><td>' + task['duration'] + '</td><td>' + task['effort'] + '</td><td>' + task['difficulty'] + '</td><td>' + taskId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
