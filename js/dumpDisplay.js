@@ -10,37 +10,41 @@ function displayDump(selector) {
 }
 
 function dumpItemBaseSkillData() {
-  var result = "";
+  var result = '<table><tr><th>Item</th><th>Skill</th><th>Value</th><th>ID</th></tr>';
   for (var itemBaseSkillId in _ItemBaseSkillData) {
     var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
-    result += '<ul>' + "id of element: &lt;" + itemBaseSkillId + "&gt; with value of: &lt;" + itemBaseSkill['value'] + "&gt; for skill: &lt;" + getSkillName(itemBaseSkill) + "&gt; on item: &lt;" + getItemBaseName(itemBaseSkill) + "&gt;" + '</ul>';
+    result += '<tr><td>' + getItemBaseName(itemBaseSkill) + '</td><td>' + getSkillName(itemBaseSkill) + '</td><td>' + itemBaseSkill['value'] + '</td><td>' + itemBaseSkillId + '</td></tr>';
   }
+  result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
 function dumpItemTypeData() {
-  var result = "";
+  var result = '<table><tr><th>Icon</th><th>Item type</th><th>Parent type</th><th>ID</th></tr>';
   for (var itemTypeId in _ItemTypeData) {
     var ItemType = _ItemTypeData[itemTypeId];
-    result += '<ul><img src="' + getImage(ItemType) + '" >' + "Item type: &lt;" + getLocalizedName(ItemType) + "&gt; which is child of: &lt;" + getParentItemTypeName(ItemType) + "&gt; " + '</ul>';
+    result += '<tr><td><img src="' + getImage(ItemType) + '" ></td><td>' + getLocalizedName(ItemType) + '</td><td>' + getParentItemTypeName(ItemType) + '</td><td>' + itemTypeId + '</td></tr>';
   }
+  result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
 function dumpSkillData() {
-  var result = "";
+  var result = '<table><tr><th>Icon</th><th>Skill</th><th>ID</th></tr>';
   for (var skillId in _SkillData) {
     var skill = _SkillData[skillId];
-    result += '<ul><img src="' + getImage(skill) + '" >' + "Skill: &lt;" + getLocalizedName(skill) + "&gt;" + '</ul>';
+    result += '<tr><td><img src="' + getImage(skill) + '" ></td><td>' + getLocalizedName(skill) + '</td><td>' + skillId + '</td></tr>';
   }
+  result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
 }
 
 function dumpTaskGroupData() {
-  var result = "";
+  var result = '<table><tr><th>Icon</th><th>Task group</th><th>ID</th></tr>';
   for (var taskGroupId in _TaskGroupData) {
     var taskGroup = _TaskGroupData[taskGroupId];
-    result += '<ul><img src="' + getImage(taskGroup) + '" >' + "Task group: &lt;" + getLocalizedName(taskGroup) + "&gt; " + '</ul>';
+    result += '<tr><td><img src="' + getImage(taskGroup) + '" ></td><td>' + getLocalizedName(taskGroup) + '</td><td>' + taskGroupId + '</td></tr>';
   }
+  result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
 }
