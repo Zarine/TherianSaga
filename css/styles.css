@@ -36,6 +36,9 @@ table {
   text-align: center;
   vertical-align:middle;
   border-collapse: collapse;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 td {
