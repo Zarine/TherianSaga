@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>TS super data displayer</title>
+  <script src="js/extractData.js" type="text/javascript" ></script>
+  <script src="js/extractHelpers.js" type="text/javascript" ></script>
+  <script src="js/dumpDisplay.js" type="text/javascript" ></script>
+  <script src="js/exploreDisplay.js" type="text/javascript" ></script>
+  <script src="js/displayHelpers.js" type="text/javascript" ></script>
+  <script src="js/localStorage.js" type="text/javascript" ></script>
+</head>
+
+<body>
+  <div id="Main" class="main">
+    <div id="LanguageSelection" class="languageSelection">
+      <div id="EN" class="language english selected" onclick="setLanguage(this)">English</div>
+      <div id="FR" class="language french" onclick="setLanguage(this)">French</div>
+    </div>
+    <div id="InputFileArea" class="inputFileArea">
+      <input type="file" id="files" name="files[]" multiple />
+      <button type="button" class="hidden" id="SaveToLocalStorage" onclick="saveToLocalStorage()">Save to local storage</button> 
+      <button type="button" class="hidden" id="LoadFromLocalStorage" onclick="loadFromLocalStorage()">Load from local storage</button>
+      <button type="button" class="hidden" id="ClearLocalStorage" onclick="clearLocalStorage()">Clear the local storage</button> 
+    </div>
+    <div id="OperationSelection" class="operationSelection">
+      <div id="Dump" class="operation dump" onclick="displayOutput(this)">Dump</div>
+      <div id="Explore" class="operation explore" onclick="displayOutput(this)">Explore</div>
+    </div>
+    <div id="Output" class="allOutput">
+      <div id="DumpOutput" class="output hidden">
+        <div id="SelectorDumpOutput" class="Selector">
+          <select id="SelectorDumpOutputComboBox" onchange="displayDump(this)">
+            <option disabled selected value="">Please Select...</option>
+            <option value="dumpItemBaseSkillData">Item Base Skill Data</option>
+            <option value="dumpItemTypeData">Item Type Data</option>
+            <option value="dumpSkillData">Skill Data</option>
+            <option value="dumpTaskGroupData">Task Group Data</option>
+          </select>
+        </div>
+        <div id="DumpOutputResult" class="outputText"></div>
+      </div>
+      <div id="ExploreOutput" class="output hidden">
+        <div id="ExploreOutputResult" class="outputExplore"></div>
+      </div>
+    </div>
+    <div id="Test" class="exploreItem" objectId="3a1c9e5f-b4b6-e211-be8c-782bcb902040" onclick="exploreDisplaySkill(this)">Helper For explore test</div>
+  </div>
+
+
+  <style type="text/css">
+.hidden {
+  display: none;
+}
+
+.selected {
+  background-color: #00bfff;
+}
+
+.inputFileArea {} .operationSelection,
+.languageSelection {
+  margin: 20px 0;
+}
+
+.Selector {
+  text-align: center
+}
+
+.operation,
+.language {
+  display: inline;
+  padding: 5px;
+  border: solid 2px black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+h1 {
+  display: inline;
+}
+
+.exploreItem {
+  cursor: pointer;
+}
+  </style>
+
+</body>
+
+</html>
