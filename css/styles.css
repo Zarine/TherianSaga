@@ -12,7 +12,7 @@
 }
 
 .Selector {
-  text-align: center
+  text-align: center;
 }
 
 .operation,
@@ -30,4 +30,14 @@ h1 {
 
 .exploreItem {
   cursor: pointer;
+}
+
+table {
+  text-align: center;
+  vertical-align:middle;
+  border-collapse: collapse;
+}
+
+td {
+  border: solid 1px black;
 }
