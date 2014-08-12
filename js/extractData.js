@@ -47,6 +47,14 @@ window.onload = function ()
   var _ZoneData = {};
 
   document.getElementById("files").addEventListener('change', handleFileSelect, false);
+
+  // Check for available local storage
+  if(typeof localStorage !== "undefined") { 
+    if(localStorage.getItem("TherianSageDataExplorer_DataStored")) { 
+    removeClass("hidden", document.getElementById('LoadFromLocalStorage'));
+    removeClass("hidden", document.getElementById('ClearLocalStorage')); 
+    }
+  }
 }
 
 ////////////////
