@@ -183,7 +183,16 @@ function extractItemBaseSet(context) {
     var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
 
     var itemBase = {};
-
+    itemBase['itemTypeId'] = itemBaseElement.getAttribute("itemTypeId");
+    itemBase['iconId'] = itemBaseElement.getAttribute("iconId");
+    extractFromAttributeWithDefault(itemBaseElement, itemBase, "craftingTaskId", 0);
+    extractFromAttributeWithDefault(itemBaseElement, itemBase, "isHidden", 0);
+    extractFromAttributeWithDefault(itemBaseElement, itemBase, "representsRecipeId", 0);
+    extractList(itemBaseElement, itemBase, "soldInStores");
+    extractList(itemBaseElement, itemBase, "resourceOfRegions");
+    extractList(itemBaseElement, itemBase, "skills");
+    extractList(itemBaseElement, itemBase, "usedInRecipeIngredients");
+    extractList(itemBaseElement, itemBase, "usedInRecipes");
     extractName(itemBaseElement, itemBase)
 
     _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
