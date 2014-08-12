@@ -1,0 +1,46 @@
+.hidden {
+  display: none;
+}
+
+.selected {
+  background-color: #00bfff;
+}
+
+.inputFileArea {} .operationSelection,
+.languageSelection {
+  margin: 20px 0;
+}
+
+.Selector {
+  text-align: center;
+}
+
+.operation,
+.language {
+  display: inline;
+  padding: 5px;
+  border: solid 2px black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+h1 {
+  display: inline;
+}
+
+.exploreItem {
+  cursor: pointer;
+}
+
+table {
+  text-align: center;
+  vertical-align:middle;
+  border-collapse: collapse;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td {
+  border: solid 1px black;
+}

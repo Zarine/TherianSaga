@@ -2,14 +2,6 @@
 // Local Storage //
 ///////////////////
 
-// Check for available local storage
-if(typeof localStorage !== "undefined") { 
-  if(localStorage.getItem("TherianSageDataExplorer_DataStored")) { 
-    removeClass("hidden", document.getElementById('LoadFromLocalStorage'));
-    removeClass("hidden", document.getElementById('ClearLocalStorage')); 
-  }
-}
-
 function saveToLocalStorage() {
   localStorage.setItem("TherianSageDataExplorer_DataStored",true);
   localStorage.setItem("TherianSageDataExplorer_ItemBaseSkillData",JSON.stringify(_ItemBaseSkillData));
