@@ -31,9 +31,9 @@ function exploreItemType(element) {
   result += '<img src="' + getImage(itemType) + '" ><h1 class="exploreTitle title" id="Skill_' + itemTypeId + '">' + getLocalizedName(itemType) + '</h1>';
 
   result += exploreDisplayList(itemType, 'skills');
-  //result += exploreDisplayList(itemType, 'itemBases');
+  result += exploreDisplayList(itemType, 'itemBases');
   //result += exploreDisplayList(itemType, 'usedInRecipeIngredients');
-  //result += exploreDisplayList(itemType, 'usedInRecipes');
+  result += exploreDisplayList(itemType, 'usedInRecipes');
   result += exploreDisplayList(itemType, 'subItemTypes');
 
   document.getElementById('ExploreOutputResult').innerHTML = result;
@@ -152,6 +152,51 @@ function taskGroupsDisplayInformation(id) {
   result += '<tr class="exploreItem" onclick="exploreTaskGroup(this)" objectId="' + id + '">'
   result += '<td class="exploreItemIcon"><img src="' + getImage(taskGroup) + '" ></td><td class="exploreItemName">' + getLocalizedName(taskGroup) + '</td>';
 
+  result += '</tr>';
+  return result;
+}
+
+function itemBasesDisplayTitleRow() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemCraftTaskTitle">Craft Task Name</th><th class="exploreItemSkillNeededTitle">Skill Needed</th><th class="exploreItemSkillNeededIconTitle"></th></tr></thead>';
+}
+
+function itemBasesDisplayInformation(id) {
+  var result = "";
+
+  var itemBase = _ItemBaseData[id];
+  
+  result += '<tr class="exploreItem" onclick="exploreItemBase(this)" objectId="' + id + '">'
+  result += '<td class="exploreItemIcon"><img src="' + getImage(itemBase) + '" ></td><td class="exploreItemName">' + getLocalizedName(itemBase) + '</td>';
+
+  if(itemBase.craftingTaskId != 0)
+  {
+    var task = _TaskData[itemBase.craftingTaskId];
+	result += '<td class="exploreItemCraftTask">' + getLocalizedName(task) + '</td>';
+	
+	var skill = _SkillData[task.skillId];
+	result += '<td class="exploreItemName">' + getLocalizedName(skill) + '</td><td class="exploreItemIcon"><img src="' + getImage(skill) + '" ></td>';
+  }
+  
+  result += '</tr>';
+  return result;
+}
+
+function usedInRecipesDisplayTitleRow() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemProducedItemTitle">Produced item Name</th><th class="exploreItemProducedItemIconTitle"></th></tr></thead>';
+}
+
+function usedInRecipesDisplayInformation(id) {
+  var result = "";
+
+  var recipe = _RecipeData[id];
+  var representingItem = _ItemBaseData[recipe.representedByItemBaseId];
+  var producedItem = _ItemBaseData[recipe.producedItemBaseId];
+  
+  result += '<tr class="exploreItem" onclick="exploreRecipe(this)" objectId="' + id + '">'
+  result += '<td class="exploreItemIcon"><img src="' + getImage(representingItem) + '" ></td><td class="exploreItemName">' + getLocalizedName(recipe) + '</td>';
+	
+  result += '<td class="exploreItemProducedItem">' + getLocalizedName(producedItem) + '</td><td class="exploreItemProducedItemIconTitle"><img src="' + getImage(producedItem) + '" ></td>';
+  
   result += '</tr>';
   return result;
 }
