@@ -79,6 +79,17 @@ function getNameFR(dataElement) {
   return dataElement['nameFR'];
 }
 
+function translateIdentifierToText(type) {
+  if (_Language == 'FR') {
+    if(type == "usedByItemTypes") { return "Présent dans les objets de ces catégories:"; }
+	if(type == "usedByUnitBaseSkills") { return "Est possédée par les humains/créatures:"; }
+	if(type == "usedByItemBaseSkills") { return "Est disponible sur les objets/batiments:"; }
+  }
+  if(type == "usedByItemTypes") { return "Present in item from those categories:"; }
+  if(type == "usedByUnitBaseSkills") { return "Is owned by the humans/creatures:"; }
+  if(type == "usedByItemBaseSkills") { return "Is available for the items/buildings:"; }
+}
+
 function displayOutput(origin) {
   hideAllOutput();
   removeOperationSelection();

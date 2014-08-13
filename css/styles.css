@@ -32,7 +32,7 @@ h1 {
   cursor: pointer;
 }
 
-table {
+.dumpTable {
   text-align: center;
   vertical-align:middle;
   border-collapse: collapse;
@@ -41,6 +41,20 @@ table {
   margin-right: auto;
 }
 
-td {
+.exploreTable {
+  text-align: center;
+  vertical-align:middle;
+  border-collapse: collapse;
+  table-layout:fixed;
+}
+
+.dumpTable td {
   border: solid 1px black;
+}
+
+.exploreItemName, .exploreItemNameTitle,
+.exploreItemIcon, .exploreItemIconTitle,
+.exploreItemValue, .exploreItemValueTitle {
+  padding-left: 10px;
+  padding-right: 10px;
 }
