@@ -14,8 +14,27 @@ function exploreSkill(element) {
   result += exploreDisplayList(skill, 'usedByItemTypes');
   result += exploreDisplayList(skill, 'usedByUnitBaseSkills');
   result += exploreDisplayList(skill, 'usedByItemBaseSkills');
-  //exploreDisplayList(skill, 'subSkills');
-  //exploreDisplayList(skill, 'taskGroups');
+  result += exploreDisplayList(skill, 'subSkills');
+  result += exploreDisplayList(skill, 'taskGroups');
+
+  document.getElementById('ExploreOutputResult').innerHTML = result;
+  sorttable.init();
+}
+
+function exploreItemType(element) {
+  var itemTypeId = element.getAttribute("objectId");
+  var itemType = _ItemTypeData[itemTypeId];
+
+  var result = '';
+
+  // First set a Title
+  result += '<img src="' + getImage(itemType) + '" ><h1 class="exploreTitle title" id="Skill_' + itemTypeId + '">' + getLocalizedName(itemType) + '</h1>';
+
+  result += exploreDisplayList(itemType, 'skills');
+  //result += exploreDisplayList(itemType, 'itemBases');
+  //result += exploreDisplayList(itemType, 'usedInRecipeIngredients');
+  //result += exploreDisplayList(itemType, 'usedInRecipes');
+  result += exploreDisplayList(itemType, 'subItemTypes');
 
   document.getElementById('ExploreOutputResult').innerHTML = result;
   sorttable.init();
@@ -42,19 +61,31 @@ function titleForCategoryExplore(type) {
   return result;
 }
 
-function usedByItemTypesDisplayTitleRow() {
+function itemTypesDisplayTitleRow() {
   return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th></tr></thead>';
 }
+function subItemTypesDisplayTitleRow() {
+  return itemTypesDisplayTitleRow();
+}
+function usedByItemTypesDisplayTitleRow() {
+  return itemTypesDisplayTitleRow();
+}
 
-function usedByItemTypesDisplayInformation(id) {
+function itemTypesDisplayInformation(id) {
   var result = "";
 
-  var usedByItemTypes = _ItemTypeData[id];
-  result += '<tr class="exploreItem" onclick="exploreDisplayItemType(this)" objectId="' + id + '">'
-  result += '<td class="exploreItemIcon"><img src="' + getImage(usedByItemTypes) + '" ></td><td class="exploreItemName">' + getLocalizedName(usedByItemTypes) + '</td>';
+  var itemTypes = _ItemTypeData[id];
+  result += '<tr class="exploreItem" onclick="exploreItemType(this)" objectId="' + id + '">'
+  result += '<td class="exploreItemIcon"><img src="' + getImage(itemTypes) + '" ></td><td class="exploreItemName">' + getLocalizedName(itemTypes) + '</td>';
 
   result += '</tr>';
   return result;
+}
+function subItemTypesDisplayInformation(id) {
+  return itemTypesDisplayInformation(id);
+}
+function usedByItemTypesDisplayInformation(id) {
+  return itemTypesDisplayInformation(id);
 }
 
 function usedByUnitBaseSkillsDisplayTitleRow() {
@@ -66,7 +97,7 @@ function usedByUnitBaseSkillsDisplayInformation(id) {
 
   var unitBaseSkill = _UnitBaseSkillData[id];
   var unitBase = _UnitBaseData[unitBaseSkill.unitBaseId];
-  result += '<tr class="exploreItem" onclick="exploreUnitBaseSkill(this)" objectId="' + id + '">'
+  result += '<tr class="exploreItem" onclick="exploreUnitBase(this)" objectId="' + unitBaseSkill.unitBaseId + '">'
   result += '<td class="exploreItemIcon"><img src="' + getImage(unitBase) + '" ></td><td class="exploreItemName">' + getLocalizedName(unitBase) + '</td><td class="exploreItemValue">' + unitBaseSkill.value + '</td>';
 
   result += '</tr>';
@@ -82,8 +113,44 @@ function usedByItemBaseSkillsDisplayInformation(id) {
 
   var itemBaseSkill = _ItemBaseSkillData[id];
   var itemBase = _ItemBaseData[itemBaseSkill.itemBaseId];
-  result += '<tr class="exploreItem" onclick="exploreItemBase(this)" objectId="' + id + '">'
+  result += '<tr class="exploreItem" onclick="exploreItemBase(this)" objectId="' + itemBaseSkill.itemBaseId + '">'
   result += '<td class="exploreItemIcon"><img src="' + getImage(itemBase) + '" ></td><td class="exploreItemName">' + getLocalizedName(itemBase) + '</td><td class="exploreItemValue">' + itemBaseSkill.value + '</td>';
+
+  result += '</tr>';
+  return result;
+}
+
+function skillsDisplayTitleRow() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th></tr></thead>';
+}
+function subSkillsDisplayTitleRow() {
+  return skillsDisplayTitleRow();
+}
+
+function skillsDisplayInformation(id) {
+  var result = "";
+
+  var skill = _SkillData[id];
+  result += '<tr class="exploreItem" onclick="exploreSkill(this)" objectId="' + id + '">'
+  result += '<td class="exploreItemIcon"><img src="' + getImage(skill) + '" ></td><td class="exploreItemName">' + getLocalizedName(skill) + '</td>';
+
+  result += '</tr>';
+  return result;
+}
+function subSkillsDisplayInformation(id) {
+  return skillsDisplayInformation(id);
+}
+
+function taskGroupsDisplayTitleRow() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th></tr></thead>';
+}
+
+function taskGroupsDisplayInformation(id) {
+  var result = "";
+
+  var taskGroup = _TaskGroupData[id];
+  result += '<tr class="exploreItem" onclick="exploreTaskGroup(this)" objectId="' + id + '">'
+  result += '<td class="exploreItemIcon"><img src="' + getImage(taskGroup) + '" ></td><td class="exploreItemName">' + getLocalizedName(taskGroup) + '</td>';
 
   result += '</tr>';
   return result;
