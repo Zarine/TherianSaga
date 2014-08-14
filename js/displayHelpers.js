@@ -81,6 +81,7 @@ function getNameFR(dataElement) {
 
 function translateIdentifierToText(type) {
   if (_Language == 'FR') {
+    if(type == "itemBaseSkill") { return "Caractéristiques:"; }
     if(type == "itemBases") { return "Objets de cette catégorie:"; }
     if(type == "usedByItemTypes") { return "Présent dans les objets de ces catégories:"; }
 	if(type == "subItemTypes") { return "A les sous types d'objets suivants::"; }
@@ -91,6 +92,7 @@ function translateIdentifierToText(type) {
 	if(type == "taskGroups") { return "Est utile pour les tâches des types suivants:"; }
 	if(type == "usedInRecipes") { return "Utilisé dans les recettes suivantes:"; }
   }
+  if(type == "itemBaseSkill") { return "Characteristics:"; }
   if(type == "itemBases") { return "Objects of this category:"; }
   if(type == "usedByItemTypes") { return "Present in item from those categories:"; }
   if(type == "subItemTypes") { return "Has the following sub item types:"; }

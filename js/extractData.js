@@ -156,7 +156,7 @@ function extractItemBaseSet(context) {
     extractList(itemBaseElement, itemBase, "skills");
     extractList(itemBaseElement, itemBase, "usedInRecipeIngredients");
     extractList(itemBaseElement, itemBase, "usedInRecipes");
-    extractName(itemBaseElement, itemBase)
+    extractName(itemBaseElement, itemBase);
 
     _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
   }
