@@ -82,3 +82,31 @@ function dumpTaskData() {
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
 }
+
+function dumpRecipeData() {
+  var result = '<table class="dumpTable"><tr><th>Recipe name</th><th>Produced item base</th><th>Represented by</th><th>Is discoverable</th><th>Tasks</th><th>Ingredients</th></tr>';
+  for (var recipeId in _RecipeData) {
+    var recipe = _RecipeData[recipeId];
+    result += '<tr><td>' + getLocalizedName(recipe) + '</td><td>' + getLocalizedName(_ItemBaseData[recipe['producedItemBaseId']]) + '</td><td>' + getLocalizedName(_ItemBaseData[recipe['representedByItemBaseId']]) + '</td><td>' + recipe['isDiscoverable'] + '</td><td>';
+    for (var i in recipe['useInTasks'])
+    {
+        result += getLocalizedName(_TaskData[recipe['useInTasks'][i]]) + '<br />';
+    }
+    result += '</td><td>';
+    for (var i in recipe['ingredients'])
+    {
+        var recipeIngredient = _RecipeIngredientData[recipe['ingredients'][i]]
+        result += recipeIngredient['quantity'] + ' ';
+        if (recipeIngredient['itemTypeId'] == 0)
+        {
+            // Not a generic ingredient, use itemBaseId instead
+            result += getLocalizedName(_ItemBaseData[recipeIngredient['itemBaseId']]) + '<br />';
+        } else {
+            result += getLocalizedName(_ItemTypeData[recipeIngredient['itemTypeId']]) + '<br />';
+        }
+    }
+    result += '</td></tr>';
+  }
+  result += '</table>'
+  document.getElementById('DumpOutputResult').innerHTML = result;
+}
