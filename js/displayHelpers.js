@@ -15,11 +15,16 @@ function setLanguage(button) {
 }
 
 function getLocalizedName(dataElement) {
-  if (_Language == 'FR') {
-    return getNameFR(dataElement)
+  if (typeof dataElement === "undefined")
+  {
+    // Undefined element, do nothing
   } else {
-    return getNameEN(dataElement)
-  }
+    if (_Language == 'FR') {
+      return getNameFR(dataElement)
+    } else {
+      return getNameEN(dataElement)
+    }
+  }   
 }
 
 

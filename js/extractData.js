@@ -250,6 +250,7 @@ function recipeIngredientSet(context) {
     var recipeIngredient = {};
     extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "quantity", 0);
     extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "itemTypeId", 0);
+    extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "itemBaseId", 0);
     extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "recipeId", 0);
     extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "IsConsumable", 0);
 
