@@ -27,7 +27,7 @@ function dumpDungeonData() {
   var result = '<table class="dumpTable"><tr><th>Dungeon</th><th>ID</th></tr>';
   for (var dungeonId in _DungeonData) {
     var dungeon = _DungeonData[dungeonId];
-    result += '<tr><td>' + getLocalizedName(dungeon) + '</td><td>' + dungeonId + '</td></tr>';
+    result += '<tr><td>' + dungeon.getName() + '</td><td>' + dungeonId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -37,7 +37,7 @@ function dumpItemTypeData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Item type</th><th>Parent type</th><th>ID</th></tr>';
   for (var itemTypeId in _ItemTypeData) {
     var ItemType = _ItemTypeData[itemTypeId];
-    result += '<tr><td><img src="' + getImage(ItemType) + '" ></td><td>' + getLocalizedName(ItemType) + '</td><td>' + getParentItemTypeName(ItemType) + '</td><td>' + itemTypeId + '</td></tr>';
+    result += '<tr><td><img src="' + ItemType.getIcon() + '" ></td><td>' + ItemType.getName() + '</td><td>' + ItemType.getParentItemTypeName() + '</td><td>' + itemTypeId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;

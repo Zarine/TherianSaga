@@ -22,6 +22,8 @@ window.onload = function ()
   var _StoreData = {};
   var _ResidentData = {};
   var _ZoneData = {};
+  
+  var _AllData = {};
 
   document.getElementById("files").addEventListener('change', handleFileSelect, false);
 

@@ -26,6 +26,7 @@ function saveToLocalStorage() {
   localStorage.setItem("TherianSageDataExplorer_StoreData",JSON.stringify(_StoreData));
   localStorage.setItem("TherianSageDataExplorer_ResidentData",JSON.stringify(_ResidentData));
   localStorage.setItem("TherianSageDataExplorer_ZoneData",JSON.stringify(_ZoneData));
+  localStorage.setItem("TherianSageDataExplorer_AllData",JSON.stringify(_AllData));
   removeClass("hidden", document.getElementById('LoadFromLocalStorage'));
   removeClass("hidden", document.getElementById('ClearLocalStorage')); 
 }
@@ -54,6 +55,7 @@ function loadFromLocalStorage() {
   _StoreData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_StoreData"));
   _ResidentData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_ResidentData"));
   _ZoneData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_ZoneData"));
+  _AllData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_AllData"));
 }
 
 function clearLocalStorage() {
@@ -80,6 +82,7 @@ function clearLocalStorage() {
   localStorage.removeItem("TherianSageDataExplorer_StoreData");
   localStorage.removeItem("TherianSageDataExplorer_ResidentData");
   localStorage.removeItem("TherianSageDataExplorer_ZoneData");
+  localStorage.removeItem("TherianSageDataExplorer_AllData");
   addClass("hidden", document.getElementById('LoadFromLocalStorage'));
   addClass("hidden", document.getElementById('ClearLocalStorage'));
 }

@@ -68,15 +68,9 @@ function extractItemBaseSkillSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var itemBaseSkillElement = itemBaseSkillSet.getElementsByTagName("itemBaseSkill")[i];
 
-    var itemBaseSkill = {};
-
-    extractFromAttributeWithDefault(itemBaseSkillElement, itemBaseSkill, "value", 0);
-    extractFromAttributeWithDefault(itemBaseSkillElement, itemBaseSkill, "isProxy", 0);
-
-    itemBaseSkill['skillId'] = itemBaseSkillElement.getAttribute("skillId");
-    itemBaseSkill['itemBaseId'] = itemBaseSkillElement.getAttribute("itemBaseId");
-
-    _ItemBaseSkillData[itemBaseSkillElement.getAttribute("id")] = itemBaseSkill;
+    var object = new ItemBaseSkill(itemBaseSkillElement);
+    _ItemBaseSkillData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -86,14 +80,9 @@ function extractDungeonSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var dungeonElement = dungeonSet.getElementsByTagName("dungeon")[i]
 
-    var dungeon = {};
-
-    dungeon['mapName'] = dungeonElement.getAttribute("mapName");
-    extractList(dungeonElement, dungeon, "unitBases");
-    extractLocalizedText(dungeonElement, dungeon, "description");
-    extractName(dungeonElement, dungeon);
-
-    _DungeonData[dungeonElement.getAttribute("id")] = dungeon;
+    var object = new Dungeon(dungeonElement);
+    _DungeonData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -102,23 +91,10 @@ function extractItemTypeSet(context) {
   var numberOfItem = itemTypeSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var itemTypeElement = itemTypeSet.getElementsByTagName("itemType")[i];
-    var itemType = {};
 
-    extractName(itemTypeElement, itemType);
-
-    extractFromAttributeWithDefault(itemTypeElement, itemType, "parentItemTypeId", 0);
-    extractFromAttributeWithDefault(itemTypeElement, itemType, "iconId", 0);
-    extractFromAttributeWithDefault(itemTypeElement, itemType, "showInGuide", 0);
-
-    itemType['totalItemBaseCount'] = itemTypeElement.getAttribute("totalItemBaseCount");
-
-    extractList(itemTypeElement, itemType, "skills");
-    extractList(itemTypeElement, itemType, "itemBases");
-    extractList(itemTypeElement, itemType, "usedInRecipeIngredients");
-    extractList(itemTypeElement, itemType, "usedInRecipes");
-    extractList(itemTypeElement, itemType, "subItemTypes");
-
-    _ItemTypeData[itemTypeElement.getAttribute("id")] = itemType;
+    var object = new ItemType(itemTypeElement);
+    _ItemTypeData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 

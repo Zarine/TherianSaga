@@ -10,6 +10,14 @@ function extractFromAttributeWithDefault(baseElement, mapItem, name, def) {
   mapItem[name] = attribut;
 }
 
+function extractFromAttributeWithDefaultObject(baseElement, name, def) {
+  var attribut = baseElement.getAttribute(name);
+  if (attribut == null) {
+    attribut = def;
+  }
+  return attribut;
+}
+
 function extractName(baseElement, mapItem) {
   return extractLocalizedText(baseElement, mapItem, "name");
 }
@@ -43,6 +51,16 @@ function extractList(source, mapItem, name) {
   }
 }
 
+function extractListObject(source, name) {
+  var element = source.getElementsByTagName(name)[0];
+  var count = element.getAttribute("count");
+  var list = [];
+  for (var i = 0; i < count; i++) {
+    list.push(element.getElementsByTagName("link")[i].getAttribute("id"));
+  }
+  return list;
+}
+
 function resetData() {
   _ItemBaseSkillData = {};
   _DungeonData = {};
@@ -66,4 +84,6 @@ function resetData() {
   _StoreData = {};
   _ResidentData = {};
   _ZoneData = {};
+  
+  _AllData = {};
 }
