@@ -47,7 +47,7 @@ function dumpItemBaseData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Name</th><th>Item type</th><th>ID</th></tr>';
   for (var itemBaseId in _ItemBaseData) {
     var itemBase = _ItemBaseData[itemBaseId];
-    result += '<tr><td><img src="' + getImage(itemBase) + '" ></td><td>' + getLocalizedName(itemBase) + '</td><td>' + getLocalizedName(_ItemTypeData[itemBase['itemTypeId']]) + '</td><td>' + itemBaseId + '</td></tr>';
+    result += '<tr><td><img src="' + getImage(itemBase) + '" ></td><td>' + getLocalizedName(itemBase) + '</td><td>' + _ItemTypeData[itemBase['itemTypeId']].getName() + '</td><td>' + itemBaseId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -102,7 +102,7 @@ function dumpRecipeData() {
             // Not a generic ingredient, use itemBaseId instead
             result += getLocalizedName(_ItemBaseData[recipeIngredient['itemBaseId']]) + '<br />';
         } else {
-            result += getLocalizedName(_ItemTypeData[recipeIngredient['itemTypeId']]) + '<br />';
+            result += _ItemTypeData[recipeIngredient['itemTypeId']].getName() + '<br />';
         }
     }
     result += '</td></tr>';
