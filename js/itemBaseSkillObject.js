@@ -20,3 +20,11 @@ ItemBaseSkill.prototype.getName = function() {
 ItemBaseSkill.prototype.getValue = function() {
   return this.value;
 };
+
+ItemBaseSkill.prototype.getSkillName = function() {
+  return _SkillData[this.skillId].getName();
+};
+
+ItemBaseSkill.prototype.getItemBaseName = function() {
+  return _ItemBaseData[this.itemBaseId].getName();
+};

@@ -104,14 +104,9 @@ function extractSiteSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var siteElement = siteSet.getElementsByTagName("site")[i]
 
-    var site = {}
-    site['signId'] = siteElement.getAttribute("signId");
-    site['signIconId'] = siteElement.getAttribute("signIconId");
-    extractList(siteElement, site, "zones");
-    extractList(siteElement, site, "residents");
-    extractName(siteElement, site)
-
-    _SiteData[siteElement.getAttribute("id")] = site
+    var object = new Site(siteElement);
+    _SiteData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -121,21 +116,15 @@ function extractItemBaseSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var itemBaseElement = itemBaseSet.getElementsByTagName("itemBase")[i];
 
-    var itemBase = {};
-    itemBase['itemTypeId'] = itemBaseElement.getAttribute("itemTypeId");
-	extractFromAttributeWithDefault(itemBaseElement, itemBase, "iconId", 0);
-    extractFromAttributeWithDefault(itemBaseElement, itemBase, "craftingTaskId", 0);
-    extractFromAttributeWithDefault(itemBaseElement, itemBase, "isHidden", 0);
-    extractFromAttributeWithDefault(itemBaseElement, itemBase, "representsRecipeId", 0);
-    extractList(itemBaseElement, itemBase, "soldInStores");
-    extractList(itemBaseElement, itemBase, "resourceOfRegions");
-    extractList(itemBaseElement, itemBase, "skills");
-    extractList(itemBaseElement, itemBase, "usedInRecipeIngredients");
-    extractList(itemBaseElement, itemBase, "usedInRecipes");
-    extractName(itemBaseElement, itemBase);
-
-    _ItemBaseData[itemBaseElement.getAttribute("id")] = itemBase;
+    var object = new ItemBase(itemBaseElement);
+    _ItemBaseData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
+  
+  // Add a default itemBase so that it is defined whenever we try to get it
+  var object = new ItemBase(itemBaseElement, 0);
+  _ItemBaseData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }
 
 function extractSkillSet(context) {
@@ -143,20 +132,10 @@ function extractSkillSet(context) {
   var numberOfItem = skillSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var skillElement = skillSet.getElementsByTagName("skill")[i];
-    var skill = {};
 
-    extractName(skillElement, skill);
-
-    extractFromAttributeWithDefault(skillElement, skill, "sequenceOrder", 0);
-    extractFromAttributeWithDefault(skillElement, skill, "iconId", 0);
-
-    extractList(skillElement, skill, "usedByItemTypes");
-    extractList(skillElement, skill, "usedByUnitBaseSkills");
-    extractList(skillElement, skill, "usedByItemBaseSkills");
-    extractList(skillElement, skill, "taskGroups");
-    extractList(skillElement, skill, "subSkills");
-
-    _SkillData[skillElement.getAttribute("id")] = skill;
+	var object = new Skill(skillElement);
+    _SkillData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 

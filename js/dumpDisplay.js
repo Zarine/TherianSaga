@@ -14,8 +14,8 @@ function dumpItemBaseSkillData() {
   for (var itemBaseSkillId in _ItemBaseSkillData) {
     var itemBaseSkill = _ItemBaseSkillData[itemBaseSkillId];
     result += '<tr class="dumpTableElement dumpTableElement-ItemBaseSkill">';
-    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + getItemBaseName(itemBaseSkill) + '</td>'
-    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + getSkillName(itemBaseSkill) + '</td>'
+    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + itemBaseSkill.getItemBaseName() + '</td>'
+    result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + itemBaseSkill.getSkillName() + '</td>'
     result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + itemBaseSkill['value'] + '</td>'
     result += '<td class="dumpTableText dumpTableText-ItemBaseSkill">' + itemBaseSkillId + '</td></tr>';
   }
@@ -47,7 +47,7 @@ function dumpItemBaseData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Name</th><th>Item type</th><th>ID</th></tr>';
   for (var itemBaseId in _ItemBaseData) {
     var itemBase = _ItemBaseData[itemBaseId];
-    result += '<tr><td><img src="' + getImage(itemBase) + '" ></td><td>' + getLocalizedName(itemBase) + '</td><td>' + _ItemTypeData[itemBase['itemTypeId']].getName() + '</td><td>' + itemBaseId + '</td></tr>';
+    result += '<tr><td><img src="' + getImage(itemBase) + '" ></td><td>' + itemBase.getName() + '</td><td>' + _ItemTypeData[itemBase['itemTypeId']].getName() + '</td><td>' + itemBaseId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -57,7 +57,7 @@ function dumpSkillData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Skill</th><th>ID</th></tr>';
   for (var skillId in _SkillData) {
     var skill = _SkillData[skillId];
-    result += '<tr><td><img src="' + getImage(skill) + '" ></td><td>' + getLocalizedName(skill) + '</td><td>' + skillId + '</td></tr>';
+    result += '<tr><td><img src="' + getImage(skill) + '" ></td><td>' + skill.getName() + '</td><td>' + skillId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -77,7 +77,7 @@ function dumpTaskData() {
   var result = '<table class="dumpTable"><tr><th>Name</th><th>Skill</th><th>Duration</th><th>Effort</th><th>Difficulty</th><th>ID</th></tr>';
   for (var taskId in _TaskData) {
     var task = _TaskData[taskId];
-    result += '<tr><td>' + getLocalizedName(task) + '</td><td>' + getLocalizedName(_SkillData[task['skillId']]) + '</td><td>' + task['duration'] + '</td><td>' + task['effort'] + '</td><td>' + task['difficulty'] + '</td><td>' + taskId + '</td></tr>';
+    result += '<tr><td>' + getLocalizedName(task) + '</td><td>' + _SkillData[task['skillId']].getName() + '</td><td>' + task['duration'] + '</td><td>' + task['effort'] + '</td><td>' + task['difficulty'] + '</td><td>' + taskId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -87,7 +87,7 @@ function dumpRecipeData() {
   var result = '<table class="dumpTable"><tr><th>Recipe name</th><th>Produced item base</th><th>Represented by</th><th>Is discoverable</th><th>Tasks</th><th>Ingredients</th></tr>';
   for (var recipeId in _RecipeData) {
     var recipe = _RecipeData[recipeId];
-    result += '<tr><td>' + getLocalizedName(recipe) + '</td><td>' + getLocalizedName(_ItemBaseData[recipe['producedItemBaseId']]) + '</td><td>' + getLocalizedName(_ItemBaseData[recipe['representedByItemBaseId']]) + '</td><td>' + recipe['isDiscoverable'] + '</td><td>';
+    result += '<tr><td>' + getLocalizedName(recipe) + '</td><td>' + _ItemBaseData[recipe['producedItemBaseId']].getName() + '</td><td>' + _ItemBaseData[recipe['representedByItemBaseId']].getName() + '</td><td>' + recipe['isDiscoverable'] + '</td><td>';
     for (var i in recipe['useInTasks'])
     {
         result += getLocalizedName(_TaskData[recipe['useInTasks'][i]]) + '<br />';
@@ -100,7 +100,7 @@ function dumpRecipeData() {
         if (recipeIngredient['itemTypeId'] == 0)
         {
             // Not a generic ingredient, use itemBaseId instead
-            result += getLocalizedName(_ItemBaseData[recipeIngredient['itemBaseId']]) + '<br />';
+            result += _ItemBaseData[recipeIngredient['itemBaseId']].getName() + '<br />';
         } else {
             result += _ItemTypeData[recipeIngredient['itemTypeId']].getName() + '<br />';
         }
