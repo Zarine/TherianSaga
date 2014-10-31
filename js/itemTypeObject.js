@@ -1,17 +1,36 @@
-var ItemType = function(xmlSource) {
-    this.id = xmlSource.getAttribute("id");
-    this.name = new LocalizedText(xmlSource, "name");
+var ItemType = function(xmlSource, fakeIdCreation) {
+    if(fakeIdCreation === undefined) // parameter was omitted in call
+	{
+      this.id = xmlSource.getAttribute("id");
+      this.name = new LocalizedText(xmlSource, "name");
     
-    this.parentItemTypeId = extractFromAttributeWithDefaultObject(xmlSource, "parentItemTypeId", 0);
-    this.iconId = extractFromAttributeWithDefaultObject(xmlSource, "iconId", 0);
-    this.showInGuide = extractFromAttributeWithDefaultObject(xmlSource, "showInGuide", 0);
-    this.totalItemBaseCount = xmlSource.getAttribute("totalItemBaseCount");
+      this.parentItemTypeId = extractFromAttributeWithDefaultObject(xmlSource, "parentItemTypeId", 0);
+      this.iconId = extractFromAttributeWithDefaultObject(xmlSource, "iconId", 0);
+      this.showInGuide = extractFromAttributeWithDefaultObject(xmlSource, "showInGuide", 0);
+      this.totalItemBaseCount = xmlSource.getAttribute("totalItemBaseCount");
     
-    this.skills = extractListObject(xmlSource, "skills");
-    this.itemBases = extractListObject(xmlSource, "itemBases");
-    this.usedInRecipeIngredients = extractListObject(xmlSource, "usedInRecipeIngredients");
-    this.usedInRecipes = extractListObject(xmlSource, "usedInRecipes");
-    this.subItemTypes = extractListObject(xmlSource, "subItemTypes");
+      this.skills = extractListObject(xmlSource, "skills");
+      this.itemBases = extractListObject(xmlSource, "itemBases");
+      this.usedInRecipeIngredients = extractListObject(xmlSource, "usedInRecipeIngredients");
+      this.usedInRecipes = extractListObject(xmlSource, "usedInRecipes");
+      this.subItemTypes = extractListObject(xmlSource, "subItemTypes");
+    }
+    else
+	{
+	  this.id = 0;
+	  this.name = new LocalizedText(xmlSource, "name", "-");
+	  
+	  this.parentItemTypeId = 0;
+	  this.iconId = 0;
+	  this.showInGuide = 0;
+	  this.totalItemBaseCount = 0;
+	  
+      this.skills = [];
+      this.itemBases = [];
+      this.usedInRecipeIngredients = [];
+      this.usedInRecipes = [];
+      this.subItemTypes = [];
+	}
 
 }
 

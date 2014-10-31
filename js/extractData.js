@@ -96,6 +96,11 @@ function extractItemTypeSet(context) {
     _ItemTypeData[object.getId()] = object;
     _AllData[object.getId()] = object;
   }
+  
+  // Add a default itemType so that it is defined whenever we try to get it
+  var object = new ItemType("", 0);
+  _ItemTypeData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }
 
 function extractSiteSet(context) {
@@ -122,7 +127,7 @@ function extractItemBaseSet(context) {
   }
   
   // Add a default itemBase so that it is defined whenever we try to get it
-  var object = new ItemBase(itemBaseElement, 0);
+  var object = new ItemBase("", 0);
   _ItemBaseData[object.getId()] = object;
   _AllData[object.getId()] = object;
 }
@@ -145,13 +150,9 @@ function extractTaskGroupSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var taskGroupElement = taskGroupSet.getElementsByTagName("taskGroup")[i]
 
-    var taskGroup = {}
-    taskGroup['iconId'] = taskGroupElement.getAttribute("iconId");
-    extractFromAttributeWithDefault(taskGroupElement, taskGroup, "sequenceOrder", 0);
-    extractList(taskGroupElement, taskGroup, "tasks");
-    extractName(taskGroupElement, taskGroup)
-
-    _TaskGroupData[taskGroupElement.getAttribute("id")] = taskGroup
+	var object = new TaskGroup(taskGroupElement);
+    _TaskGroupData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -161,18 +162,9 @@ function taskSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var taskElement = taskSet.getElementsByTagName("task")[i];
 
-    var task = {};
-    extractFromAttributeWithDefault(taskElement, task, "duration", 0);
-    extractFromAttributeWithDefault(taskElement, task, "skillId", 0);
-    extractFromAttributeWithDefault(taskElement, task, "recipeId", 0);
-    extractFromAttributeWithDefault(taskElement, task, "producedItemBase", 0);
-    extractFromAttributeWithDefault(taskElement, task, "difficulty", 0);
-    extractFromAttributeWithDefault(taskElement, task, "effort", 0);
-    extractFromAttributeWithDefault(taskElement, task, "cooldown", 0);
-
-    extractName(taskElement, task);
-
-    _TaskData[taskElement.getAttribute("id")] = task;
+	var object = new Task(taskElement);
+    _TaskData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -182,17 +174,9 @@ function recipeSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var recipeElement = recipeSet.getElementsByTagName("recipe")[i];
 
-    var recipe = {};
-    extractFromAttributeWithDefault(recipeElement, recipe, "representedByItemBaseId", 0);
-    extractFromAttributeWithDefault(recipeElement, recipe, "producedItemBaseId", 0);
-    extractFromAttributeWithDefault(recipeElement, recipe, "isDiscoverable", 0);
-
-    extractList(recipeElement, recipe, "useInTasks");
-    extractList(recipeElement, recipe, "ingredients");
-
-    extractName(recipeElement, recipe);
-
-    _RecipeData[recipeElement.getAttribute("id")] = recipe;
+	var object = new Recipe(recipeElement);
+    _RecipeData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 

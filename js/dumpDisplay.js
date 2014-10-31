@@ -36,6 +36,7 @@ function dumpDungeonData() {
 function dumpItemTypeData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Item type</th><th>Parent type</th><th>ID</th></tr>';
   for (var itemTypeId in _ItemTypeData) {
+    if(itemTypeId == 0) { continue; }
     var ItemType = _ItemTypeData[itemTypeId];
     result += '<tr><td><img src="' + ItemType.getIcon() + '" ></td><td>' + ItemType.getName() + '</td><td>' + ItemType.getParentItemTypeName() + '</td><td>' + itemTypeId + '</td></tr>';
   }
@@ -46,6 +47,7 @@ function dumpItemTypeData() {
 function dumpItemBaseData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Name</th><th>Item type</th><th>ID</th></tr>';
   for (var itemBaseId in _ItemBaseData) {
+    if(itemBaseId == 0) { continue; }
     var itemBase = _ItemBaseData[itemBaseId];
     result += '<tr><td><img src="' + getImage(itemBase) + '" ></td><td>' + itemBase.getName() + '</td><td>' + _ItemTypeData[itemBase['itemTypeId']].getName() + '</td><td>' + itemBaseId + '</td></tr>';
   }
@@ -67,7 +69,7 @@ function dumpTaskGroupData() {
   var result = '<table class="dumpTable"><tr><th>Icon</th><th>Task group</th><th>ID</th></tr>';
   for (var taskGroupId in _TaskGroupData) {
     var taskGroup = _TaskGroupData[taskGroupId];
-    result += '<tr><td><img src="' + getImage(taskGroup) + '" ></td><td>' + getLocalizedName(taskGroup) + '</td><td>' + taskGroupId + '</td></tr>';
+    result += '<tr><td><img src="' + taskGroup.getIcon() + '" ></td><td>' + taskGroup.getName() + '</td><td>' + taskGroupId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -77,7 +79,7 @@ function dumpTaskData() {
   var result = '<table class="dumpTable"><tr><th>Name</th><th>Skill</th><th>Duration</th><th>Effort</th><th>Difficulty</th><th>ID</th></tr>';
   for (var taskId in _TaskData) {
     var task = _TaskData[taskId];
-    result += '<tr><td>' + getLocalizedName(task) + '</td><td>' + _SkillData[task['skillId']].getName() + '</td><td>' + task['duration'] + '</td><td>' + task['effort'] + '</td><td>' + task['difficulty'] + '</td><td>' + taskId + '</td></tr>';
+    result += '<tr><td>' + task.getName() + '</td><td>' + task.getSkillName() + '</td><td>' + task['duration'] + '</td><td>' + task['effort'] + '</td><td>' + task['difficulty'] + '</td><td>' + taskId + '</td></tr>';
   }
   result += '</table>'
   document.getElementById('DumpOutputResult').innerHTML = result;
@@ -87,10 +89,10 @@ function dumpRecipeData() {
   var result = '<table class="dumpTable"><tr><th>Recipe name</th><th>Produced item base</th><th>Represented by</th><th>Is discoverable</th><th>Tasks</th><th>Ingredients</th></tr>';
   for (var recipeId in _RecipeData) {
     var recipe = _RecipeData[recipeId];
-    result += '<tr><td>' + getLocalizedName(recipe) + '</td><td>' + _ItemBaseData[recipe['producedItemBaseId']].getName() + '</td><td>' + _ItemBaseData[recipe['representedByItemBaseId']].getName() + '</td><td>' + recipe['isDiscoverable'] + '</td><td>';
+    result += '<tr><td>' + recipe.getName() + '</td><td>' + recipe.getProducedItemName() + '</td><td>' + recipe.getRepresentedByItemName() + '</td><td>' + recipe['isDiscoverable'] + '</td><td>';
     for (var i in recipe['useInTasks'])
     {
-        result += getLocalizedName(_TaskData[recipe['useInTasks'][i]]) + '<br />';
+        result += recipe.getTaskName(i) + '<br />';
     }
     result += '</td><td>';
     for (var i in recipe['ingredients'])
