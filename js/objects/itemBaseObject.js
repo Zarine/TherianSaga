@@ -53,9 +53,34 @@ ItemBase.prototype.getIcon = function() {
   return getImageLink(this.iconId);
 };
 
+ItemBase.prototype.getItemTypeId = function() {
+  return this.itemTypeId;
+};
+
+ItemBase.prototype.getItemTypeName = function() {
+  return _ItemTypeData[this.itemTypeId].getName();
+};
+
+ItemBase.prototype.getItemTypeIcon = function() {
+  return _ItemTypeData[this.itemTypeId].getIcon();
+};
+
 // Explore Specific
 ItemBase.prototype.explore = function() {
   var result = [];
+
+  // First set a Title
+  result.push('<img src="' + this.getIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + ' / <img src="' + this.getItemTypeIcon() + '" ><span class="exploreItem" onclick="exploreId(\'' + this.getItemTypeId() + '\')" >' + this.getItemTypeName() + '</span></h1>');
+
+  result.push( exploreList(this.skills) );
+  //result.push( exploreList(this.resourceOfRegions, "isIn") );
+  
+  // all this specific item usedInRecipes and also the one of its group
+  var groupedList = this.usedInRecipes.concat(_ItemTypeData[this.itemTypeId].usedInRecipes);
+  result.push( exploreList(groupedList, "usedIn") );
+  
+  //result.push(exploreList(this.soldInStores, "soldIn") );
+
   return result.join("");
 }
 

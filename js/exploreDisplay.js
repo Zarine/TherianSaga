@@ -18,7 +18,7 @@ function exploreList(list, flavor) {
     result.push(firstItem.exploreTableHeader());
     
     for (var i = 0; i < length; i++) {
-      result.push( _AllData[list[i]].exploreInformation() );
+      result.push( _AllData[list[i]].exploreInformation(flavor) );
     }
     result.push('</table></div>');
   }
@@ -26,26 +26,6 @@ function exploreList(list, flavor) {
 }
 
 // Old explore
-
-function exploreItemBase(element) {
-  var itemBaseId = element.getAttribute("objectId");
-  var itemBase = _ItemBaseData[itemBaseId];
-
-  var result = '';
-  
-  var itemType = _ItemTypeData[itemBase.itemTypeId];
-
-  // First set a Title
-  result += '<img src="' + getImage(itemBase) + '" ><h1 class="exploreTitle title" id="ItemBase_' + itemBaseId + '">' + getLocalizedName(itemBase) + ' / <img src="' + getImage(itemType) + '" ><span class="exploreItem" onclick="exploreItemType(this)" objectId="' + itemBase.itemTypeId + '">' + getLocalizedName(itemType) + '</span></h1>';
-
-  result += exploreDisplaySpecificList(itemBase, 'skills', 'itemBaseSkill');
-  //result += exploreDisplayList(itemBase, 'resourceOfRegions');
-  result += exploreDisplayListWithParent(itemBase, 'usedInRecipes', 'usedInRecipes', itemType, 'usedInRecipes');
-  //result += exploreDisplayList(itemBase, 'soldInStores');
-
-  document.getElementById('ExploreOutputResult').innerHTML = result;
-  sorttable.init();
-}
 
 function exploreDisplayList(elementSource, listType) {
   return exploreDisplaySpecificList(elementSource, listType, listType);
