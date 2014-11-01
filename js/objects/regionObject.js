@@ -76,5 +76,8 @@ Region.prototype.exploreTableHeader = function(flavor) {
 }
 
 Region.prototype.exploreInformation = function(flavor) {
-  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td>' + this.getName() + '</td><td>' + this.getTerritoryName() + '</td><td>' + this.getDifficulty() + '</td></tr>';
+  if(flavor == "terrain") 
+  {
+    return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td>' + this.getName() + '</td><td>' + this.getTerritoryName() + '</td><td>' + this.getDifficulty() + '</td></tr>';
+  }
 }
