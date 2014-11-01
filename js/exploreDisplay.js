@@ -2,46 +2,30 @@
 // Explore display //
 /////////////////////
 function exploreId(id) {
-  $('#ExploreOutputResult').html() = _AllData[id].explore();
-}
-
-
-function exploreSkill(element) {
-  var skillId = element.getAttribute("objectId");
-  var skill = _SkillData[skillId];
-
-  var result = '';
-
-  // First set a Title
-  result += '<img src="' + getImage(skill) + '" ><h1 class="exploreTitle title" id="Skill_' + skillId + '">' + getLocalizedName(skill) + '</h1>';
-
-  result += exploreDisplayList(skill, 'usedByItemTypes');
-  result += exploreDisplayList(skill, 'usedByUnitBaseSkills');
-  result += exploreDisplayList(skill, 'usedByItemBaseSkills');
-  result += exploreDisplayList(skill, 'subSkills');
-  result += exploreDisplayList(skill, 'taskGroups');
-
-  document.getElementById('ExploreOutputResult').innerHTML = result;
+  $('#ExploreOutputResult').html(_AllData[id].explore());
   sorttable.init();
 }
 
-function exploreItemType(element) {
-  var itemTypeId = element.getAttribute("objectId");
-  var itemType = _ItemTypeData[itemTypeId];
+function exploreList(list, flavor) {
+  var result = [];
 
-  var result = '';
-
-  // First set a Title
-  result += '<img src="' + getImage(itemType) + '" ><h1 class="exploreTitle title" id="ItemType_' + itemTypeId + '">' + getLocalizedName(itemType) + '</h1>';
-
-  result += exploreDisplayList(itemType, 'skills');
-  result += exploreDisplayList(itemType, 'itemBases');
-  result += exploreDisplayList(itemType, 'usedInRecipes');
-  result += exploreDisplayList(itemType, 'subItemTypes');
-
-  document.getElementById('ExploreOutputResult').innerHTML = result;
-  sorttable.init();
+  var length = list.length;
+  if (list.length != 0) {
+    var firstItem = _AllData[list[0]];
+    result.push('<div>');
+    result.push(firstItem.exploreCategoryTitle(flavor));
+	  result.push('<table class="exploreTable sortable">');
+    result.push(firstItem.exploreTableHeader());
+    
+    for (var i = 0; i < length; i++) {
+      result.push( _AllData[list[i]].exploreInformation() );
+    }
+    result.push('</table></div>');
+  }
+  return result.join("");
 }
+
+// Old explore
 
 function exploreItemBase(element) {
   var itemBaseId = element.getAttribute("objectId");

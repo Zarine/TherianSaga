@@ -27,10 +27,53 @@ Recipe.prototype.getProducedItemName = function() {
   return _ItemBaseData[this.producedItemBaseId].getName();
 }
 
+Recipe.prototype.getProducedItemIcon = function() {
+  return _ItemBaseData[this.producedItemBaseId].getIcon();
+}
+
 Recipe.prototype.getRepresentedByItemName = function() {
   return _ItemBaseData[this.representedByItemBaseId].getName();
 }
 
+Recipe.prototype.getRepresentedByItemIcon = function() {
+  return _ItemBaseData[this.representedByItemBaseId].getIcon();
+}
+
 Recipe.prototype.getTaskName = function(i) {
   return _TaskData[this.useInTasks[i]].getName();
+}
+
+// Explore Specific
+Recipe.prototype.explore = function() {
+  var result = [];
+  return result.join("");
+}
+
+Recipe.prototype.exploreCategoryTitle = function(flavor) {
+  if(flavor == "usedIn") 
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Utilisé dans les recettes suivantes:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Used for the following recipes:</h2>';
+  }
+}
+
+Recipe.prototype.exploreTableHeader = function() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemProducedItemTitle">Produced item Name</th><th class="exploreItemProducedItemIconTitle"></th></tr></thead>';
+}
+
+Recipe.prototype.exploreInformation = function() {
+  var result = [];
+  
+  result.push('<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" >');
+  if(this.representedByItemBaseId != 0)
+  {
+    result.push('<td class="exploreItemIcon"><img src="' + this.getRepresentedByItemIcon() + '" ></td>');
+  }
+  else
+  {
+    result.push('<td></td>');
+  }
+  result.push('<td class="exploreItemName">' + this.getName() + '</td><td class="exploreItemProducedItem">' + this.getProducedItemName() + '</td><td class="exploreItemProducedItemIconTitle"><img src="' + this.getProducedItemIcon() + '" ></td></tr>');
+  
+  return result.join("");
 }

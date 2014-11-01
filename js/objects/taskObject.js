@@ -24,7 +24,14 @@ Task.prototype.getValue = function() {
   return "";
 };
 
+Task.prototype.getSkillId = function() {
+  return this.skillId;
+}
+
 Task.prototype.getSkillName = function() {
   return _SkillData[this.skillId].getName();
 }
 
+Task.prototype.getSkillIcon= function() {
+  return _SkillData[this.skillId].getIcon();
+}

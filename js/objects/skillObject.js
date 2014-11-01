@@ -29,3 +29,36 @@ Skill.prototype.getValue = function() {
 Skill.prototype.getIcon = function() {
   return getImageLink(this.iconId);
 };
+
+Skill.prototype.explore = function() {
+  var result = [];
+
+  // First set a Title
+  result.push('<img src="' + this.getIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + '</h1>');
+
+  result.push( exploreList(this.usedByItemTypes, "usedBy") );
+  result.push( exploreList(this.usedByUnitBaseSkills, "usedBy") );
+  result.push(exploreList(this.usedByItemBaseSkills, "usedBy") );
+  result.push(exploreList(this.subSkills, "sub") );
+  result.push(exploreList(this.taskGroups) );
+
+  return result.join("");
+}
+
+Skill.prototype.exploreCategoryTitle = function(flavor) {
+  if(flavor == "sub") 
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les sous compétences suivantes:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Has following sub skills:</h2>';
+  }
+  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les compétences suivantes:</h2>'; }
+  return '<h2 class="subTitle exploreSubTitle">Has following skills:</h2>';
+}
+
+Skill.prototype.exploreTableHeader = function() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th></tr></thead>';
+}
+
+Skill.prototype.exploreInformation = function() {
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td class="exploreItemIcon"><img src="' + this.getIcon() + '" ></td><td class="exploreItemName">' + this.getName() + '</td></tr>';
+}

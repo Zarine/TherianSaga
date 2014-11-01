@@ -96,7 +96,7 @@ function translateIdentifierToText(type) {
     if(type == "itemBaseSkill") { return "Caractéristiques:"; }
     if(type == "itemBases") { return "Objets de cette catégorie:"; }
     if(type == "usedByItemTypes") { return "Présent dans les objets de ces catégories:"; }
-	if(type == "subItemTypes") { return "A les sous types d'objets suivants::"; }
+	if(type == "subItemTypes") { return "A les sous types d'objets suivants:"; }
 	if(type == "usedByUnitBaseSkills") { return "Est possédée par les humains/créatures:"; }
 	if(type == "usedByItemBaseSkills") { return "Est disponible sur les objets/batiments:"; }
 	if(type == "skills") { return "A les compétences suivantes:"; }

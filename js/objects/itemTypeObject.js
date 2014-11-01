@@ -57,3 +57,39 @@ ItemType.prototype.getParentItemTypeName = function() {
   }
   return "-";
 }
+
+// Explore Specific
+ItemType.prototype.explore = function() {
+  var result = [];
+  
+  // First set a Title
+  result.push('<img src="' + this.getIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + '</h1>');
+
+  result.push( exploreList(this.skills) );
+  result.push( exploreList(this.itemBases) );
+  result.push( exploreList(this.usedInRecipes, "usedIn") );
+  result.push( exploreList(this.subItemTypes, "sub") );
+  
+  return result.join("");
+}
+
+ItemType.prototype.exploreCategoryTitle = function(flavor) {
+  if(flavor == "usedBy") 
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Présent dans les objets de ces catégories:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Present in item from those categories:</h2>';
+  }
+  if(flavor == "sub")
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les sous types d\'objets suivants:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Has the following sub item types:</h2>';
+  }
+}
+
+ItemType.prototype.exploreTableHeader = function() {
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th></tr></thead>';
+}
+
+ItemType.prototype.exploreInformation = function() {
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td class="exploreItemIcon"><img src="' + this.getIcon() + '" ></td><td class="exploreItemName">' + this.getName() + '</td></tr>';
+}
