@@ -1,4 +1,5 @@
 var UnitBase = function(xmlSource) {
+    this.constr = "UnitBase";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     

@@ -1,4 +1,5 @@
 var LandForm = function(xmlSource) {
+    this.constr = "LandForm";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     

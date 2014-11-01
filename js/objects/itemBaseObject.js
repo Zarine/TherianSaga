@@ -1,4 +1,5 @@
 var ItemBase = function(xmlSource, fakeIdCreation) {
+    this.constr = "ItemBase";
     if(fakeIdCreation === undefined) // parameter was omitted in call
 	{
       this.id = xmlSource.getAttribute("id");

@@ -26,7 +26,6 @@ function saveToLocalStorage() {
   localStorage.setItem("TherianSageDataExplorer_StoreData",JSON.stringify(_StoreData));
   localStorage.setItem("TherianSageDataExplorer_ResidentData",JSON.stringify(_ResidentData));
   localStorage.setItem("TherianSageDataExplorer_ZoneData",JSON.stringify(_ZoneData));
-  localStorage.setItem("TherianSageDataExplorer_AllData",JSON.stringify(_AllData));
   removeClass("hidden", document.getElementById('LoadFromLocalStorage'));
   removeClass("hidden", document.getElementById('ClearLocalStorage')); 
 }
@@ -55,7 +54,29 @@ function loadFromLocalStorage() {
   _StoreData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_StoreData"));
   _ResidentData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_ResidentData"));
   _ZoneData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_ZoneData"));
-  _AllData = JSON.parse(localStorage.getItem("TherianSageDataExplorer_AllData"));
+  
+  attachPrototypeAndFillAllData(_ItemBaseSkillData);
+  attachPrototypeAndFillAllData(_DungeonData);
+  attachPrototypeAndFillAllData(_ItemTypeData);
+  attachPrototypeAndFillAllData(_ItemBaseData);
+  attachPrototypeAndFillAllData(_SiteData);
+  attachPrototypeAndFillAllData(_SkillData);
+  attachPrototypeAndFillAllData(_TaskGroupData);
+  attachPrototypeAndFillAllData(_TaskData);
+  attachPrototypeAndFillAllData(_RecipeData);
+  attachPrototypeAndFillAllData(_RecipeIngredientData);
+  attachPrototypeAndFillAllData(_UnitTypeData);
+  attachPrototypeAndFillAllData(_UnitBaseData);
+  attachPrototypeAndFillAllData(_ImageData);
+  attachPrototypeAndFillAllData(_TerritoryData);
+  attachPrototypeAndFillAllData(_RegionData);
+  attachPrototypeAndFillAllData(_AreaWildlifeData);
+  attachPrototypeAndFillAllData(_AreaResourceData);
+  attachPrototypeAndFillAllData(_LandformData);
+  attachPrototypeAndFillAllData(_UnitBaseSkillData);
+  attachPrototypeAndFillAllData(_StoreData);
+  attachPrototypeAndFillAllData(_ResidentData);
+  attachPrototypeAndFillAllData(_ZoneData);
 }
 
 function clearLocalStorage() {
@@ -82,7 +103,22 @@ function clearLocalStorage() {
   localStorage.removeItem("TherianSageDataExplorer_StoreData");
   localStorage.removeItem("TherianSageDataExplorer_ResidentData");
   localStorage.removeItem("TherianSageDataExplorer_ZoneData");
-  localStorage.removeItem("TherianSageDataExplorer_AllData");
   addClass("hidden", document.getElementById('LoadFromLocalStorage'));
   addClass("hidden", document.getElementById('ClearLocalStorage'));
+}
+
+function attachPrototypeAndFillAllData(list) {
+  for (var id in list) {
+    var object = list[id];
+    object.__proto__ = window[object.constr].prototype;
+    if(object.name !== undefined)
+    {
+      object.name.__proto__ = window["LocalizedText"].prototype;
+    }
+    if(object.description !== undefined)
+    {
+      object.description.__proto__ = window["LocalizedText"].prototype;
+    }
+    _AllData[id] = object;
+  }
 }

@@ -1,4 +1,5 @@
 var Dungeon = function(xmlSource) {
+    this.constr = "Dungeon";
 
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");

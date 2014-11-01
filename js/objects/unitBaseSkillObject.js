@@ -1,4 +1,5 @@
 var UnitBaseSkill = function(xmlSource) {
+    this.constr = "UnitBaseSkill";
     this.id = xmlSource.getAttribute("id");
     
     this.value = extractFromAttributeWithDefaultObject(xmlSource, "value", 0);

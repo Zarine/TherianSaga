@@ -1,4 +1,5 @@
 var Image = function(xmlSource) {
+    this.constr = "Image";
     this.id = xmlSource.getAttribute("id");
     this.path = xmlSource.getAttribute("path");
 }

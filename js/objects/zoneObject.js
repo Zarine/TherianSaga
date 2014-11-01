@@ -1,4 +1,5 @@
 var Zone = function(xmlSource) {
+    this.constr = "Zone";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     

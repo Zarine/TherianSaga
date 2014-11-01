@@ -1,4 +1,5 @@
 var TaskGroup = function(xmlSource) {
+    this.constr = "TaskGroup";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     

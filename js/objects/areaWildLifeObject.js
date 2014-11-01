@@ -1,4 +1,5 @@
 var AreaWildLife = function(xmlSource) {
+    this.constr = "AreaWildLife";
     this.id = xmlSource.getAttribute("id");
     
     this.unitBaseId = extractFromAttributeWithDefaultObject(xmlSource, "unitBaseId", 0);

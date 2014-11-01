@@ -1,4 +1,5 @@
 var Recipe = function(xmlSource) {
+    this.constr = "Recipe";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     

@@ -1,4 +1,5 @@
 var RecipeIngredient = function(xmlSource) {
+  this.constr = "RecipeIngredient";
   this.id = xmlSource.getAttribute("id");
 	
   this.quantity = extractFromAttributeWithDefaultObject(xmlSource, "quantity", 0);

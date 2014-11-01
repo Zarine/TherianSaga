@@ -4,29 +4,29 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>TS super data displayer</title>
-  <script src="js/itemBaseSkillObject.js" type="text/javascript" ></script>
-  <script src="js/dungeonObject.js" type="text/javascript" ></script>
-  <script src="js/itemTypeObject.js" type="text/javascript" ></script>
-  <script src="js/siteObject.js" type="text/javascript" ></script>
-  <script src="js/itemBaseObject.js" type="text/javascript" ></script>
-  <script src="js/skillObject.js" type="text/javascript" ></script>
-  <script src="js/taskGroupObject.js" type="text/javascript" ></script>
-  <script src="js/taskObject.js" type="text/javascript" ></script>
-  <script src="js/recipeObject.js" type="text/javascript" ></script>
-  <script src="js/recipeIngredientObject.js" type="text/javascript" ></script>
-  <script src="js/unitTypeObject.js" type="text/javascript" ></script>
-  <script src="js/unitBaseObject.js" type="text/javascript" ></script>
-  <script src="js/imageObject.js" type="text/javascript" ></script>
-  <script src="js/territoryObject.js" type="text/javascript" ></script>
-  <script src="js/regionObject.js" type="text/javascript" ></script>
-  <script src="js/areaWildLifeObject.js" type="text/javascript" ></script>
-  <script src="js/areaResourceObject.js" type="text/javascript" ></script>
-  <script src="js/landFormObject.js" type="text/javascript" ></script>
-  <script src="js/unitBaseSkillObject.js" type="text/javascript" ></script>
-  <script src="js/storeObject.js" type="text/javascript" ></script>
-  <script src="js/residentObject.js" type="text/javascript" ></script>
-  <script src="js/zoneObject.js" type="text/javascript" ></script>
-  <script src="js/localizedTextObject.js" type="text/javascript" ></script>
+  <script src="js/objects/itemBaseSkillObject.js" type="text/javascript" ></script>
+  <script src="js/objects/dungeonObject.js" type="text/javascript" ></script>
+  <script src="js/objects/itemTypeObject.js" type="text/javascript" ></script>
+  <script src="js/objects/siteObject.js" type="text/javascript" ></script>
+  <script src="js/objects/itemBaseObject.js" type="text/javascript" ></script>
+  <script src="js/objects/skillObject.js" type="text/javascript" ></script>
+  <script src="js/objects/taskGroupObject.js" type="text/javascript" ></script>
+  <script src="js/objects/taskObject.js" type="text/javascript" ></script>
+  <script src="js/objects/recipeObject.js" type="text/javascript" ></script>
+  <script src="js/objects/recipeIngredientObject.js" type="text/javascript" ></script>
+  <script src="js/objects/unitTypeObject.js" type="text/javascript" ></script>
+  <script src="js/objects/unitBaseObject.js" type="text/javascript" ></script>
+  <script src="js/objects/imageObject.js" type="text/javascript" ></script>
+  <script src="js/objects/territoryObject.js" type="text/javascript" ></script>
+  <script src="js/objects/regionObject.js" type="text/javascript" ></script>
+  <script src="js/objects/areaWildLifeObject.js" type="text/javascript" ></script>
+  <script src="js/objects/areaResourceObject.js" type="text/javascript" ></script>
+  <script src="js/objects/landFormObject.js" type="text/javascript" ></script>
+  <script src="js/objects/unitBaseSkillObject.js" type="text/javascript" ></script>
+  <script src="js/objects/storeObject.js" type="text/javascript" ></script>
+  <script src="js/objects/residentObject.js" type="text/javascript" ></script>
+  <script src="js/objects/zoneObject.js" type="text/javascript" ></script>
+  <script src="js/objects/localizedTextObject.js" type="text/javascript" ></script>
   
   <script src="js/extractData.js" type="text/javascript" ></script>
   <script src="js/extractHelpers.js" type="text/javascript" ></script>
@@ -48,7 +48,7 @@
     </div>
     <div id="InputFileArea" class="inputFileArea">
       <input type="file" id="files" name="files[]" multiple />
-      <button type="button" class="hidden" id="SaveToLocalStorage" onclick="saveToLocalStorage()">Save to local storage</button> 
+      <button type="button" class="hidden" id="SaveToLocalStorage" onclick="saveToLocalStorage()">Save to local storage (require about 12 MB autorized)</button> 
       <button type="button" class="hidden" id="LoadFromLocalStorage" onclick="loadFromLocalStorage()">Load from local storage</button>
       <button type="button" class="hidden" id="ClearLocalStorage" onclick="clearLocalStorage()">Clear the local storage</button> 
     </div>
@@ -77,7 +77,7 @@
         <div id="ExploreOutputResult" class="outputExplore"></div>
       </div>
     </div>
-    <div id="Test" class="exploreItem" objectId="a81c9e5f-b4b6-e211-be8c-782bcb902040" onclick="exploreSkill(this)">Helper For explore test</div>
+    <div id="Test" class="exploreItem" onclick="exploreId("a81c9e5f-b4b6-e211-be8c-782bcb902040")">Helper For explore test</div>
   </div>
 </body>
 

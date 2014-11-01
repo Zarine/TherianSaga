@@ -1,6 +1,10 @@
 /////////////////////
 // Explore display //
 /////////////////////
+function exploreId(id) {
+  $('#ExploreOutputResult').html() = _AllData[id].explore();
+}
+
 
 function exploreSkill(element) {
   var skillId = element.getAttribute("objectId");

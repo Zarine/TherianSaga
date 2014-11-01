@@ -1,4 +1,5 @@
 var ItemBaseSkill = function(xmlSource) {
+    this.constr = "ItemBaseSkill";
 
     this.id = xmlSource.getAttribute("id");
 

@@ -1,4 +1,5 @@
 var AreaResource = function(xmlSource) {
+    this.constr = "AreaResource";
     this.id = xmlSource.getAttribute("id");
 
     this.itemBaseId = extractFromAttributeWithDefaultObject(xmlSource, "itemBaseId", 0);
