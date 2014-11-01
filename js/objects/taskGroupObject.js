@@ -1,4 +1,4 @@
-var TaskGroup = function(xmlSource) {
+﻿var TaskGroup = function(xmlSource) {
     this.constr = "TaskGroup";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
@@ -32,7 +32,7 @@ TaskGroup.prototype.explore = function() {
 }
 
 TaskGroup.prototype.exploreCategoryTitle = function(flavor) {
-  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est utile pour les t�ches des types suivants:</h2>'; }
+  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est utile pour les tâches des types suivants:</h2>'; }
   return '<h2 class="subTitle exploreSubTitle">Is useful for following tasks:</h2>';
 }
 

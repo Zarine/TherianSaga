@@ -1,4 +1,4 @@
-var Recipe = function(xmlSource) {
+﻿var Recipe = function(xmlSource) {
     this.constr = "Recipe";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
@@ -52,7 +52,7 @@ Recipe.prototype.explore = function() {
 Recipe.prototype.exploreCategoryTitle = function(flavor) {
   if(flavor == "usedIn") 
   {
-    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Utilis� dans les recettes suivantes:</h2>'; }
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Utilisé dans les recettes suivantes:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Used for the following recipes:</h2>';
   }
 }

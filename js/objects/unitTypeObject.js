@@ -1,4 +1,4 @@
-var UnitType = function(xmlSource) {
+﻿var UnitType = function(xmlSource) {
     this.constr = "UnitType";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");

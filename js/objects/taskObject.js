@@ -1,4 +1,4 @@
-var Task = function(xmlSource) {
+﻿var Task = function(xmlSource) {
     this.constr = "Task";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");

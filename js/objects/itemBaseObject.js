@@ -1,4 +1,4 @@
-var ItemBase = function(xmlSource, fakeIdCreation) {
+﻿var ItemBase = function(xmlSource, fakeIdCreation) {
     this.constr = "ItemBase";
     if(fakeIdCreation === undefined) // parameter was omitted in call
 	{
@@ -73,19 +73,19 @@ ItemBase.prototype.explore = function() {
   result.push('<img src="' + this.getIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + ' / <img src="' + this.getItemTypeIcon() + '" ><span class="exploreItem" onclick="exploreId(\'' + this.getItemTypeId() + '\')" >' + this.getItemTypeName() + '</span></h1>');
 
   result.push( exploreList(this.skills) );
-  //result.push( exploreList(this.resourceOfRegions, "isIn") );
+  result.push( exploreList(this.resourceOfRegions, "isIn") );
   
   // all this specific item usedInRecipes and also the one of its group
   var groupedList = this.usedInRecipes.concat(_ItemTypeData[this.itemTypeId].usedInRecipes);
   result.push( exploreList(groupedList, "usedIn") );
   
-  //result.push(exploreList(this.soldInStores, "soldIn") );
+  result.push(exploreList(this.soldInStores, "soldIn") );
 
   return result.join("");
 }
 
 ItemBase.prototype.exploreCategoryTitle = function(flavor) {
-  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Objets de cette cat�gorie:</h2>'; }
+  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Objets de cette catégorie:</h2>'; }
   return '<h2 class="subTitle exploreSubTitle">Objects of this category:</h2>';
 }
 

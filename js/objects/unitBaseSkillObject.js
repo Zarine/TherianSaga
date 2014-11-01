@@ -1,4 +1,4 @@
-var UnitBaseSkill = function(xmlSource) {
+ï»¿var UnitBaseSkill = function(xmlSource) {
     this.constr = "UnitBaseSkill";
     this.id = xmlSource.getAttribute("id");
     
@@ -37,7 +37,7 @@ UnitBaseSkill.prototype.explore = function() {
 UnitBaseSkill.prototype.exploreCategoryTitle = function(flavor) {
   if(flavor == "usedBy") 
   {
-    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est possédée par les humains/créatures:</h2>'; }
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est possÃ©dÃ©par les humains/crÃ©atures:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Is owned by the humans/creatures:</h2>';
   }
 }

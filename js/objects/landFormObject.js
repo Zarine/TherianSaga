@@ -1,4 +1,4 @@
-var LandForm = function(xmlSource) {
+﻿var LandForm = function(xmlSource) {
     this.constr = "LandForm";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
@@ -18,4 +18,16 @@ LandForm.prototype.getName = function() {
 
 LandForm.prototype.getValue = function() {
   return "";
+};
+
+LandForm.prototype.getSkillId = function() {
+  return this.skillId;
+};
+
+LandForm.prototype.getSkillName = function() {
+  return _SkillData[this.skillId].getName();
+};
+
+LandForm.prototype.getSkillIcon = function() {
+  return _SkillData[this.skillId].getIcon();
 };

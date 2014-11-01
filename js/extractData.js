@@ -113,6 +113,11 @@ function extractSiteSet(context) {
     _SiteData[object.getId()] = object;
     _AllData[object.getId()] = object;
   }
+  
+  // Add a default itemType so that it is defined whenever we try to get it
+  var object = new Site("", 0);
+  _SiteData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }
 
 function extractItemBaseSet(context) {

@@ -1,4 +1,4 @@
-var ItemBaseSkill = function(xmlSource) {
+﻿var ItemBaseSkill = function(xmlSource) {
     this.constr = "ItemBaseSkill";
 
     this.id = xmlSource.getAttribute("id");
@@ -58,7 +58,7 @@ ItemBaseSkill.prototype.exploreCategoryTitle = function(flavor) {
     if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est disponible sur les objets/batiments:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Is available for the items/buildings:</h2>';
   }
-  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les comp�tences suivantes:</h2>'; }
+  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les compétences suivantes:</h2>'; }
   return '<h2 class="subTitle exploreSubTitle">Has following skills:</h2>';
 }
 

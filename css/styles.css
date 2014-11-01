@@ -1,3 +1,8 @@
+td, th {
+  border: 1px solid black;
+  padding: 5px;
+}
+
 .hidden {
   display: none;
 }
@@ -48,13 +53,18 @@ h1 {
   table-layout:fixed;
 }
 
-.dumpTable td {
-  border: solid 1px black;
-}
-
 .exploreItemName, .exploreItemNameTitle,
 .exploreItemIcon, .exploreItemIconTitle,
 .exploreItemValue, .exploreItemValueTitle {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.terrainDifficulty {
+  line-height: 40px;
+}
+
+.vertAlign {
+  vertical-align: middle;
+  display: inline-block;
 }

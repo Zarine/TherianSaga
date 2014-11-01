@@ -1,4 +1,4 @@
-var Dungeon = function(xmlSource) {
+﻿var Dungeon = function(xmlSource) {
     this.constr = "Dungeon";
 
     this.id = xmlSource.getAttribute("id");

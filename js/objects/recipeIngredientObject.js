@@ -1,4 +1,4 @@
-var RecipeIngredient = function(xmlSource) {
+﻿var RecipeIngredient = function(xmlSource) {
   this.constr = "RecipeIngredient";
   this.id = xmlSource.getAttribute("id");
 	

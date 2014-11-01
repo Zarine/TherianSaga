@@ -1,4 +1,4 @@
-var ItemType = function(xmlSource, fakeIdCreation) {
+ï»¿var ItemType = function(xmlSource, fakeIdCreation) {
     this.constr = "ItemType";
     if(fakeIdCreation === undefined) // parameter was omitted in call
 	{
@@ -76,7 +76,7 @@ ItemType.prototype.explore = function() {
 ItemType.prototype.exploreCategoryTitle = function(flavor) {
   if(flavor == "usedBy") 
   {
-    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Présent dans les objets de ces catégories:</h2>'; }
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">PrÃ©sent dans les objets de ces catÃ©gories:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Present in item from those categories:</h2>';
   }
   if(flavor == "sub")

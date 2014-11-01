@@ -1,4 +1,4 @@
-var Resident = function(xmlSource) {
+﻿var Resident = function(xmlSource) {
     this.constr = "Resident";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");

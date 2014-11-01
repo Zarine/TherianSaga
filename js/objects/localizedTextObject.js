@@ -1,4 +1,4 @@
-var LocalizedText = function(xmlSource, tagname, fakeNameCreation) {
+﻿var LocalizedText = function(xmlSource, tagname, fakeNameCreation) {
   if(fakeNameCreation === undefined) // parameter was omitted in call
   {
     var element = xmlSource.getElementsByTagName(tagname)[0];

@@ -1,4 +1,4 @@
-var Skill = function(xmlSource) {
+ï»¿var Skill = function(xmlSource) {
     this.constr = "Skill";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
@@ -48,10 +48,10 @@ Skill.prototype.explore = function() {
 Skill.prototype.exploreCategoryTitle = function(flavor) {
   if(flavor == "sub") 
   {
-    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les sous compétences suivantes:</h2>'; }
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les sous compÃ©tences suivantes:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Has following sub skills:</h2>';
   }
-  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les compétences suivantes:</h2>'; }
+  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les compÃ©tences suivantes:</h2>'; }
   return '<h2 class="subTitle exploreSubTitle">Has following skills:</h2>';
 }
 

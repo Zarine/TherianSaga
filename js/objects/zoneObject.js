@@ -1,4 +1,4 @@
-var Zone = function(xmlSource) {
+﻿var Zone = function(xmlSource) {
     this.constr = "Zone";
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
@@ -20,4 +20,8 @@ Zone.prototype.getName = function() {
 
 Zone.prototype.getValue = function() {
   return "";
+};
+
+Zone.prototype.getSiteName = function() {
+  return _SiteData[this.siteId].getName();
 };
