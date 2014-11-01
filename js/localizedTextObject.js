@@ -7,6 +7,7 @@ var LocalizedText = function(xmlSource, tagname, fakeNameCreation) {
       this.fr = "Pas de " + tagname;
       this.en = "No " + tagname;
       console.log("No name at all for " + xmlSource.getAttribute("id"));
+      return;
     }
   
     this.fr = element.getElementsByTagName("text")[0].childNodes[0].nodeValue;
@@ -20,7 +21,7 @@ var LocalizedText = function(xmlSource, tagname, fakeNameCreation) {
   else
   {
     this.fr = fakeNameCreation;
-	this.en = fakeNameCreation;
+    this.en = fakeNameCreation;
   }
 }
 

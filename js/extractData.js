@@ -40,18 +40,18 @@ function ParseFile(file) {
   extractSiteSet(context);
   extractSkillSet(context);
   extractTaskGroupSet(context);
-  taskSet(context);
-  recipeSet(context);
-  recipeIngredientSet(context);
-  unitTypeSet(context);
-  unitBaseSet(context);
+  extractTaskSet(context);
+  extractRecipeSet(context);
+  extractRecipeIngredientSet(context);
+  extractUnitTypeSet(context);
+  extractUnitBaseSet(context);
   extractImageSet(context);
-  territorySet(context);
-  regionSet(context);
-  areaWildlifeSet(context);
-  areaResourceSet(context);
-  landformSet(context);
-  unitBaseSkillSet(context);
+  extractTerritorySet(context);
+  extractRegionSet(context);
+  extractAreaWildlifeSet(context);
+  extractAreaResourceSet(context);
+  extractLandformSet(context);
+  extractUnitBaseSkillSet(context);
   extractStoreSet(context);
   extractResidentSet(context);
   extractZoneSet(context);
@@ -156,7 +156,7 @@ function extractTaskGroupSet(context) {
   }
 }
 
-function taskSet(context) {
+function extractTaskSet(context) {
   var taskSet = context.getElementsByTagName("taskSet")[0];
   var numberOfItem = taskSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
@@ -168,7 +168,7 @@ function taskSet(context) {
   }
 }
 
-function recipeSet(context) {
+function extractRecipeSet(context) {
   var recipeSet = context.getElementsByTagName("recipeSet")[0];
   var numberOfItem = recipeSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
@@ -180,62 +180,39 @@ function recipeSet(context) {
   }
 }
 
-function recipeIngredientSet(context) {
+function extractRecipeIngredientSet(context) {
   var recipeIngredientSet = context.getElementsByTagName("recipeIngredientSet")[0];
   var numberOfItem = recipeIngredientSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var recipeIngredientElement = recipeIngredientSet.getElementsByTagName("recipeIngredient")[i];
 
-    var recipeIngredient = {};
-    extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "quantity", 0);
-    extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "itemTypeId", 0);
-    extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "itemBaseId", 0);
-    extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "recipeId", 0);
-    extractFromAttributeWithDefault(recipeIngredientElement, recipeIngredient, "IsConsumable", 0);
-
-    _RecipeIngredientData[recipeIngredientElement.getAttribute("id")] = recipeIngredient;
+	  var object = new RecipeIngredient(recipeIngredientElement);
+    _RecipeIngredientData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function unitTypeSet(context) {
+function extractUnitTypeSet(context) {
   var unitTypeSet = context.getElementsByTagName("unitTypeSet")[0];
   var numberOfItem = unitTypeSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var unitTypeElement = unitTypeSet.getElementsByTagName("unitType")[i];
 
-    var unitType = {};
-    extractFromAttributeWithDefault(unitTypeElement, unitType, "parentUnitTypeId", 0);
-
-    extractName(unitTypeElement, unitType);
-
-    _UnitTypeData[unitTypeElement.getAttribute("id")] = unitType;
+	  var object = new UnitType(unitTypeElement);
+    _UnitTypeData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function unitBaseSet(context) {
+function extractUnitBaseSet(context) {
   var unitBaseSet = context.getElementsByTagName("unitBaseSet")[0];
   var numberOfItem = unitBaseSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var unitBaseElement = unitBaseSet.getElementsByTagName("unitBase")[i];
 
-    var unitBase = {};
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "unitType", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "largeImageId", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "portraitId", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "smallImageId", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "iconId", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "interestSkillId", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "interestSkillValue", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "aggressiveness", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "tamingTaskId", 0);
-    extractFromAttributeWithDefault(unitBaseElement, unitBase, "huntingTaskId", 0);
-
-    extractList(unitBaseElement, unitBase, "regions");
-    extractList(unitBaseElement, unitBase, "skills");
-
-    extractName(unitBaseElement, unitBase);
-
-    _UnitBaseData[unitBaseElement.getAttribute("id")] = unitBase;
+	  var object = new UnitBase(unitBaseElement);
+    _UnitBaseData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -245,112 +222,81 @@ function extractImageSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var imageElement = imageSet.getElementsByTagName("image")[i];
 
-    var image = {};
-    image['path'] = imageElement.getAttribute("path");
-
-    _ImageData[imageElement.getAttribute("id")] = image;
+    var object = new Image(imageElement);
+    _ImageData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function territorySet(context) {
+function extractTerritorySet(context) {
   var territorySet = context.getElementsByTagName("territorySet")[0];
   var numberOfItem = territorySet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var territoryElement = territorySet.getElementsByTagName("territory")[i];
 
-    var territory = {};
-    extractFromAttributeWithDefault(territoryElement, territory, "isProxy", 0);
-
-    extractList(territoryElement, territory, "regions");
-
-    extractName(territoryElement, territory);
-
-    _TerritoryData[territoryElement.getAttribute("id")] = territory;
+    var object = new Territory(territoryElement);
+    _TerritoryData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function regionSet(context) {
+function extractRegionSet(context) {
   var regionSet = context.getElementsByTagName("regionSet")[0];
   var numberOfItem = regionSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var regionElement = regionSet.getElementsByTagName("region")[i];
 
-    var region = {};
-    extractFromAttributeWithDefault(regionElement, region, "territoryId", 0);
-    extractFromAttributeWithDefault(regionElement, region, "landformId", 0);
-    extractFromAttributeWithDefault(regionElement, region, "difficulty", 0);
-
-    extractList(regionElement, region, "wildlifes");
-    extractList(regionElement, region, "resources");
-
-    extractName(regionElement, region);
-
-    _RegionData[regionElement.getAttribute("id")] = region;
+    var object = new Region(regionElement);
+    _RegionData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function areaWildlifeSet(context) {
+function extractAreaWildlifeSet(context) {
   var areaWildlifeSet = context.getElementsByTagName("areaWildlifeSet")[0];
   var numberOfItem = areaWildlifeSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var areaWildlifeElement = areaWildlifeSet.getElementsByTagName("areaWildlife")[i];
 
-    var areaWildlife = {};
-    extractFromAttributeWithDefault(areaWildlifeElement, areaWildlife, "unitBaseId", 0);
-    extractFromAttributeWithDefault(areaWildlifeElement, areaWildlife, "regionId", 0);
-    extractFromAttributeWithDefault(areaWildlifeElement, areaWildlife, "ratio", 0);
-
-    _AreaWildlifeData[areaWildlifeElement.getAttribute("id")] = areaWildlife;
+    var object = new AreaWildLife(areaWildlifeElement);
+    _AreaWildlifeData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function areaResourceSet(context) {
+function extractAreaResourceSet(context) {
   var areaResourceSet = context.getElementsByTagName("areaResourceSet")[0];
   var numberOfItem = areaResourceSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var areaResourceElement = areaResourceSet.getElementsByTagName("areaResource")[i];
 
-    var areaResource = {};
-    extractFromAttributeWithDefault(areaResourceElement, areaResource, "itemBaseId", 0);
-    extractFromAttributeWithDefault(areaResourceElement, areaResource, "regionId", 0);
-    extractFromAttributeWithDefault(areaResourceElement, areaResource, "minimumQuantity", 0);
-    extractFromAttributeWithDefault(areaResourceElement, areaResource, "maximumQuantity", 0);
-    extractFromAttributeWithDefault(areaResourceElement, areaResource, "ratio", 0);
-
-    _AreaResourceData[areaResourceElement.getAttribute("id")] = areaResource;
+    var object = new AreaResource(areaResourceElement);
+    _AreaResourceData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function landformSet(context) {
+function extractLandformSet(context) {
   var landformSet = context.getElementsByTagName("landformSet")[0];
   var numberOfItem = landformSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var landformElement = landformSet.getElementsByTagName("landform")[i];
 
-    var landform = {};
-    extractFromAttributeWithDefault(landformElement, landform, "skillId", 0);
-
-    extractList(landformElement, landform, "regions");
-
-    extractName(landformElement, landform);
-
-    _LandformData[landformElement.getAttribute("id")] = landform;
+    var object = new LandForm(landformElement);
+    _LandformData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
-function unitBaseSkillSet(context) {
+function extractUnitBaseSkillSet(context) {
   var unitBaseSkillSet = context.getElementsByTagName("unitBaseSkillSet")[0];
   var numberOfItem = unitBaseSkillSet.getAttribute("count");
   for (var i = 0; i < numberOfItem; i++) {
     var unitBaseSkillElement = unitBaseSkillSet.getElementsByTagName("unitBaseSkill")[i];
 
-    var unitBaseSkill = {};
-    extractFromAttributeWithDefault(unitBaseSkillElement, unitBaseSkill, "value", 0);
-    extractFromAttributeWithDefault(unitBaseSkillElement, unitBaseSkill, "skillId", 0);
-    extractFromAttributeWithDefault(unitBaseSkillElement, unitBaseSkill, "unitBaseId", 0);
-    extractFromAttributeWithDefault(unitBaseSkillElement, unitBaseSkill, "isProxy", 0);
-
-    _UnitBaseSkillData[unitBaseSkillElement.getAttribute("id")] = unitBaseSkill;
+    var object = new UnitBaseSkill(unitBaseSkillElement);
+    _UnitBaseSkillData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -360,15 +306,9 @@ function extractStoreSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var storeElement = storeSet.getElementsByTagName("store")[i];
 
-    var store = {};
-    extractFromAttributeWithDefault(storeElement, store, "siteId", 0);
-    extractFromAttributeWithDefault(storeElement, store, "residentId", 0);
-
-    extractList(storeElement, store, "sellItemBases");
-
-    extractName(storeElement, store);
-
-    _StoreData[storeElement.getAttribute("id")] = store;
+    var object = new Store(storeElement);
+    _StoreData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -378,16 +318,9 @@ function extractResidentSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var residentElement = residentSet.getElementsByTagName("resident")[i];
 
-    var resident = {};
-    extractFromAttributeWithDefault(residentElement, resident, "siteId", 0);
-    extractFromAttributeWithDefault(residentElement, resident, "iconId", 0);
-    extractFromAttributeWithDefault(residentElement, resident, "imageId", 0);
-
-    extractList(residentElement, resident, "stores");
-
-    extractName(residentElement, resident);
-
-    _ResidentData[residentElement.getAttribute("id")] = resident;
+    var object = new Resident(residentElement);
+    _ResidentData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
 
@@ -397,15 +330,8 @@ function extractZoneSet(context) {
   for (var i = 0; i < numberOfItem; i++) {
     var zoneElement = zoneSet.getElementsByTagName("zone")[i];
 
-    var zone = {};
-    extractFromAttributeWithDefault(zoneElement, zone, "siteId", 0);
-    extractFromAttributeWithDefault(zoneElement, zone, "parentZoneId", 0);
-
-    extractList(zoneElement, zone, "zones");
-    extractList(zoneElement, zone, "residents");
-
-    extractName(zoneElement, zone)
-
-    _ZoneData[zoneElement.getAttribute("id")] = zone;
+    var object = new Zone(zoneElement);
+    _ZoneData[object.getId()] = object;
+    _AllData[object.getId()] = object;
   }
 }
