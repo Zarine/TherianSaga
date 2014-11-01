@@ -114,7 +114,7 @@ function extractSiteSet(context) {
     _AllData[object.getId()] = object;
   }
   
-  // Add a default itemType so that it is defined whenever we try to get it
+  // Add a default site so that it is defined whenever we try to get it
   var object = new Site("", 0);
   _SiteData[object.getId()] = object;
   _AllData[object.getId()] = object;
@@ -148,7 +148,7 @@ function extractSkillSet(context) {
     _AllData[object.getId()] = object;
   }
   
-  // Add a default itemType so that it is defined whenever we try to get it
+  // Add a default skill so that it is defined whenever we try to get it
   var object = new Skill("", 0);
   _SkillData[object.getId()] = object;
   _AllData[object.getId()] = object;
@@ -344,4 +344,9 @@ function extractZoneSet(context) {
     _ZoneData[object.getId()] = object;
     _AllData[object.getId()] = object;
   }
+  
+  // Add a default Zone so that it is defined whenever we try to get it
+  var object = new Zone("", 0);
+  _ZoneData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }

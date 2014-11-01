@@ -25,9 +25,31 @@ TaskGroup.prototype.getIcon = function() {
   return getImageLink(this.iconId);
 };
 
+TaskGroup.prototype.getTask = function(i) {
+  return _TaskData[this.tasks[i]];
+};
+
+TaskGroup.prototype.getSkillId = function() {
+  return this.getTask(0).getSkillId();
+};
+
+TaskGroup.prototype.getSkillName = function() {
+  return _SkillData[this.getSkillId()].getName();
+};
+
+TaskGroup.prototype.getSkillIcon = function() {
+  return _SkillData[this.getSkillId()].getIcon();
+};
+
 // Explore Specific
 TaskGroup.prototype.explore = function() {
   var result = [];
+  
+  // First set a Title
+  result.push('<img src="' + this.getIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + ' / <img src="' + this.getSkillIcon() + '" ><span class="exploreItem" onclick="exploreId(\'' + this.getSkillId() + '\')" >' + this.getSkillName() + '</span></h1>');
+
+  result.push( exploreList(this.tasks, "taskGroup") );
+  
   return result.join("");
 }
 

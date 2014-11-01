@@ -23,6 +23,10 @@ Recipe.prototype.getValue = function() {
   return "";
 };
 
+Recipe.prototype.getProducedItemId = function() {
+  return this.producedItemBaseId;
+}
+
 Recipe.prototype.getProducedItemName = function() {
   return _ItemBaseData[this.producedItemBaseId].getName();
 }
@@ -46,6 +50,13 @@ Recipe.prototype.getTaskName = function(i) {
 // Explore Specific
 Recipe.prototype.explore = function() {
   var result = [];
+  
+  // First set a Title
+  result.push('<img src="' + this.getRepresentedByItemIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getTaskName(0) + ' / <img src="' + this.getProducedItemIcon() + '" ><span class="exploreItem" onclick="exploreId(\'' + this.getProducedItemId() + '\')" >' + this.getProducedItemName() + '</span></h1>');
+
+  result.push( exploreList(this.ingredients) );
+  result.push( exploreList(this.useInTasks) );
+
   return result.join("");
 }
 
@@ -54,6 +65,11 @@ Recipe.prototype.exploreCategoryTitle = function(flavor) {
   {
     if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Utilisé dans les recettes suivantes:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Used for the following recipes:</h2>';
+  }
+  if(flavor == "producedWith")
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est produit avec les recettes:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Is produced with recipes:</h2>';
   }
 }
 
@@ -73,7 +89,7 @@ Recipe.prototype.exploreInformation = function() {
   {
     result.push('<td></td>');
   }
-  result.push('<td class="exploreItemName">' + this.getName() + '</td><td class="exploreItemProducedItem">' + this.getProducedItemName() + '</td><td class="exploreItemProducedItemIconTitle"><img src="' + this.getProducedItemIcon() + '" ></td></tr>');
+  result.push('<td class="exploreItemName">' + this.getTaskName(0) + '</td><td class="exploreItemProducedItem">' + this.getProducedItemName() + '</td><td class="exploreItemProducedItemIconTitle"><img src="' + this.getProducedItemIcon() + '" ></td></tr>');
   
   return result.join("");
 }

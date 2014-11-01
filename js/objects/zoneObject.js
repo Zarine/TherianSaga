@@ -1,5 +1,8 @@
-﻿var Zone = function(xmlSource) {
-    this.constr = "Zone";
+﻿var Zone = function(xmlSource, fakeIdCreation) {
+  this.constr = "Zone";
+    
+  if(fakeIdCreation === undefined) // parameter was omitted in call
+	{
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     
@@ -8,6 +11,18 @@
     
     this.zones = extractListObject(xmlSource, "zones");
     this.residents = extractListObject(xmlSource, "residents");
+  }
+  else
+  {
+    this.id = 0;
+    this.name = new LocalizedText(xmlSource, "name", "-");
+    
+    this.siteId = 0;
+    this.parentZoneId = 0;
+    
+    this.zones = [];
+    this.residents = [];
+  }
 }
 
 Zone.prototype.getId = function() {

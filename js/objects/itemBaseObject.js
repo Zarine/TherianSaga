@@ -79,6 +79,18 @@ ItemBase.prototype.explore = function() {
   var groupedList = this.usedInRecipes.concat(_ItemTypeData[this.itemTypeId].usedInRecipes);
   result.push( exploreList(groupedList, "usedIn") );
   
+  // Search for the recipe that produce this item
+  var recipeList = [];
+  for(var id in _RecipeData)
+  {
+    var recipe = _RecipeData[id];
+    if(recipe.getProducedItemId() == this.getId() )
+    {
+      recipeList.push(id);
+    }
+  }
+  result.push( exploreList(recipeList, "producedWith") );
+  
   result.push(exploreList(this.soldInStores, "soldIn") );
 
   return result.join("");
