@@ -31,3 +31,7 @@ LandForm.prototype.getSkillName = function() {
 LandForm.prototype.getSkillIcon = function() {
   return _SkillData[this.skillId].getIcon();
 };
+
+LandForm.prototype.getRegions = function() {
+  return this.regions;
+};

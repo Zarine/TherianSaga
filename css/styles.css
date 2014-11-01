@@ -64,7 +64,15 @@ h1 {
   line-height: 40px;
 }
 
+.UnitBaseHeight {
+  line-height: 75px;
+}
+
 .vertAlign {
   vertical-align: middle;
   display: inline-block;
+}
+
+.spaceLeft {
+  padding-left: 3px;
 }

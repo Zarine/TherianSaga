@@ -39,6 +39,18 @@ AreaWildLife.prototype.getUnitBaseIcon = function() {
   return _UnitBaseData[this.unitBaseId].getIcon();
 };
 
+AreaWildLife.prototype.getUnitBaseInterestName = function() {
+  return _UnitBaseData[this.unitBaseId].getInterestSkillName();
+};
+
+AreaWildLife.prototype.getUnitBaseInterestIcon = function() {
+  return _UnitBaseData[this.unitBaseId].getInterestSkillIcon();
+};
+
+AreaWildLife.prototype.getUnitBaseInterestValue = function() {
+  return _UnitBaseData[this.unitBaseId].getInterestSkillValue();
+};
+
 AreaWildLife.prototype.getRatio = function() {
   return Math.round(this.ratio * 100) +"%";
 };
@@ -64,7 +76,7 @@ AreaWildLife.prototype.exploreTableHeader = function(flavor) {
   {
     return '<thead><tr><th>Region Name</th><th>Ratio</th></tr></thead>';
   }
-  return '<thead><tr><th></th><th>Human/Creature Name</th><th>Ratio</th></tr></thead>';
+  return '<thead><tr><th></th><th>Human/Creature Name</th><th>Ratio</th><th>Interest</th><th>Interest Level</th></tr></thead>';
 }
 
 AreaWildLife.prototype.exploreInformation = function(flavor) {
@@ -72,5 +84,5 @@ AreaWildLife.prototype.exploreInformation = function(flavor) {
   {
     return '<tr class="exploreItem" onclick="exploreId(\'' + this.getRegionId() + '\')" ><td>' + this.getRegionName() + '</td><td>' + this.getRatio() + '</td></tr>';
   }
-  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getUnitBaseId() + '\')" ><td><img src="' + this.getUnitBaseIcon() + '" ></td><td>' + this.getUnitBaseName() + '</td><td>' + this.getRatio() + '</td></tr>';
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getUnitBaseId() + '\')" ><td><img src="' + this.getUnitBaseIcon() + '" ></td><td>' + this.getUnitBaseName() + '</td><td>' + this.getRatio() + '</td><td class="exploreItemValue"><div class="UnitBaseHeight"><img class="vertAlign" src="' + this.getUnitBaseInterestIcon() + '" ><div class="vertAlign spaceLeft"> ' + this.getUnitBaseInterestName() + '</div></div></td><td>' + this.getUnitBaseInterestValue() + '</td></tr>';
 }

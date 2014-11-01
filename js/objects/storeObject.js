@@ -52,5 +52,5 @@ Store.prototype.exploreTableHeader = function(flavor) {
 }
 
 Store.prototype.exploreInformation = function(flavor) {
-  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td>' + this.getName() + '</td><td>' + this.getResidentName() + '</td><td>' + this.getZoneName() + '</td><td>' + this.getZoneSite() + '</td><</tr>';
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td>' + this.getName() + '</td><td>' + this.getResidentName() + '</td><td>' + this.getZoneName() + '</td><td>' + this.getZoneSite() + '</td></tr>';
 }

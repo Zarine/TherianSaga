@@ -147,6 +147,11 @@ function extractSkillSet(context) {
     _SkillData[object.getId()] = object;
     _AllData[object.getId()] = object;
   }
+  
+  // Add a default itemType so that it is defined whenever we try to get it
+  var object = new Skill("", 0);
+  _SkillData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }
 
 function extractTaskGroupSet(context) {

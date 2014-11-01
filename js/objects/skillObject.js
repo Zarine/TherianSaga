@@ -1,5 +1,7 @@
-﻿var Skill = function(xmlSource) {
-    this.constr = "Skill";
+﻿var Skill = function(xmlSource, fakeIdCreation) {
+  this.constr = "Skill";
+  if(fakeIdCreation === undefined) // parameter was omitted in call
+	{
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
 	
@@ -12,6 +14,22 @@
     this.usedByItemBaseSkills = extractListObject(xmlSource, "usedByItemBaseSkills");
     this.taskGroups = extractListObject(xmlSource, "taskGroups");
     this.subSkills = extractListObject(xmlSource, "subSkills");
+  }
+  else
+  {
+    this.id = 0;
+    this.name = new LocalizedText(xmlSource, "name", "");
+	
+    this.iconId = 0;
+    this.sequenceOrder = 0;
+   
+    
+    this.usedByItemTypes = [];
+    this.usedByUnitBaseSkills = [];
+    this.usedByItemBaseSkills = [];
+    this.taskGroups = [];
+    this.subSkills = [];
+  }
 }
 
 Skill.prototype.getId = function() {
@@ -41,6 +59,16 @@ Skill.prototype.explore = function() {
   result.push(exploreList(this.usedByItemBaseSkills, "usedBy") );
   result.push(exploreList(this.subSkills, "sub") );
   result.push(exploreList(this.taskGroups) );
+  
+  // If it's a terrain skill, find the regions with this skill
+  var regionWithTerrainSkill = [];
+  for (var id in _RegionData) {
+    if(_RegionData[id].getTerrainSkillId() == this.id)
+    {
+      regionWithTerrainSkill.push(id);
+    }
+  }
+  result.push(exploreList(regionWithTerrainSkill, "terrain") );
 
   return result.join("");
 }

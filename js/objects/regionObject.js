@@ -55,19 +55,26 @@ Region.prototype.explore = function() {
   result.push('<h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + ' / <span class="exploreItem" onclick="exploreId(\'' + this.getTerritoryId() + '\')" >' + this.getTerritoryName() + '</span></h1><div class="terrainDifficulty exploreItem" onclick="exploreId(\'' + this.getTerrainSkillId() + '\')"><div class="vertAlign">Terrain: </div><img class="vertAlign" src="' + this.getTerrainIcon() + '" ><div class="vertAlign"> ' + this.getTerrainName() + ' - Difficulty:' + this.getDifficulty() + '</div></div>');
 
   result.push( exploreList(this.wildlifes) );
-  result.push(exploreList(this.resources) );
+  result.push( exploreList(this.resources) );
 
   return result.join("");
 }
 
 Region.prototype.exploreCategoryTitle = function(flavor) {
-
+  if(flavor == "terrain") 
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est le type de terrain de:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Is the terrain type of:</h2>';
+  }
 }
 
-Region.prototype.exploreTableHeader = function() {
-
+Region.prototype.exploreTableHeader = function(flavor) {
+  if(flavor == "terrain") 
+  {
+    return '<thead><tr><th>Name</th><th>Territory</th><th>Difficulty</th></tr></thead>';
+  }
 }
 
-Region.prototype.exploreInformation = function() {
-
+Region.prototype.exploreInformation = function(flavor) {
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td>' + this.getName() + '</td><td>' + this.getTerritoryName() + '</td><td>' + this.getDifficulty() + '</td></tr>';
 }
