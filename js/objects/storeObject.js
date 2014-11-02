@@ -43,7 +43,7 @@ Store.prototype.exploreCategoryTitle = function(flavor) {
   if(flavor == "soldIn") 
   {
     if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est vendu dans les magasins suivants:</h2>'; }
-    return '<h2 class="subTitle exploreSubTitle">Is sold in the follozing stores:</h2>';
+    return '<h2 class="subTitle exploreSubTitle">Is sold in the following stores:</h2>';
   }
 }
 
