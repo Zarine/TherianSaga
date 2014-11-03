@@ -42,7 +42,7 @@ AreaResource.prototype.getItemIcon = function() {
 };
 
 AreaResource.prototype.getMinimumQuantity = function() {
-  return this.maximumQuantity;
+  return this.minimumQuantity;
 };
 
 AreaResource.prototype.getMaximumQuantity = function() {
