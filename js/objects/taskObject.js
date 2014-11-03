@@ -40,6 +40,10 @@ Task.prototype.getCooldown = function() {
   return this.cooldown.toHHMMSS();
 };
 
+Task.prototype.getRecipeId = function() {
+  return this.recipeId;
+}
+
 Task.prototype.getSkillId = function() {
   return this.skillId;
 }
@@ -86,8 +90,7 @@ Task.prototype.getTaskGroupIcon = function() {
 
 // Explore Specific
 Task.prototype.explore = function() {
-  var result = [];
-  return result.join("");
+  return exploreId(this.getRecipeId());
 }
 
 Task.prototype.exploreCategoryTitle = function(flavor) {
