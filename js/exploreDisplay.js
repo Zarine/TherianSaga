@@ -24,3 +24,17 @@ function exploreList(list, flavor) {
   }
   return result.join("");
 }
+
+function prepareAutoCompletion() {
+  var list = [];
+  
+  for(var id in _AllData)
+  {
+    var name = _AllData[id].getName();
+    if(name != "") { list.push(name); }
+  }
+  
+  $('#exploreSearch').autocomplete({
+    source : list
+  });
+}

@@ -77,6 +77,8 @@ function loadFromLocalStorage() {
   attachPrototypeAndFillAllData(_StoreData);
   attachPrototypeAndFillAllData(_ResidentData);
   attachPrototypeAndFillAllData(_ZoneData);
+  
+  prepareAutoCompletion();
 }
 
 function clearLocalStorage() {

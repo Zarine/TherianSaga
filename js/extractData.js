@@ -58,6 +58,7 @@ function ParseFile(file) {
 
   removeOperationSelection();
   hideAllOutput();
+  prepareAutoCompletion();
   
   if(typeof localStorage !== "undefined") { removeClass("hidden", document.getElementById('SaveToLocalStorage')); }
 }
