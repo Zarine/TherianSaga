@@ -23,6 +23,11 @@ Recipe.prototype.getValue = function() {
   return "";
 };
 
+Recipe.prototype.getDiscoverable = function() {
+  if(this.isDiscoverable == 1) { return "Yes"; }
+  return "No";
+}
+
 Recipe.prototype.getProducedItemId = function() {
   return this.producedItemBaseId;
 }
@@ -74,7 +79,7 @@ Recipe.prototype.exploreCategoryTitle = function(flavor) {
 }
 
 Recipe.prototype.exploreTableHeader = function() {
-  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemProducedItemTitle">Produced item Name</th><th class="exploreItemProducedItemIconTitle"></th></tr></thead>';
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemProducedItemTitle">Produced item Name</th><th class="exploreItemProducedItemIconTitle"></th><th>Can be discovered</th></tr></thead>';
 }
 
 Recipe.prototype.exploreInformation = function() {
@@ -89,7 +94,7 @@ Recipe.prototype.exploreInformation = function() {
   {
     result.push('<td></td>');
   }
-  result.push('<td class="exploreItemName">' + this.getTaskName(0) + '</td><td class="exploreItemProducedItem">' + this.getProducedItemName() + '</td><td class="exploreItemProducedItemIconTitle"><img src="' + this.getProducedItemIcon() + '" ></td></tr>');
+  result.push('<td class="exploreItemName">' + this.getTaskName(0) + '</td><td class="exploreItemProducedItem">' + this.getProducedItemName() + '</td><td class="exploreItemProducedItemIconTitle"><img src="' + this.getProducedItemIcon() + '" ></td><td>' + this.getDiscoverable() + '</td></tr>');
   
   return result.join("");
 }
