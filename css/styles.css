@@ -82,7 +82,9 @@ h1 {
 }
 
 .bottom {
-  position: absolute;
+  position: relative;
   bottom: 2px;
   width: 100%;
+  background: white;
+  margin: 10px;
 }
