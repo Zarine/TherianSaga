@@ -337,6 +337,11 @@ function extractResidentSet(context) {
     _ResidentData[object.getId()] = object;
     _AllData[object.getId()] = object;
   }
+  
+  // Add a default resident so that it is defined whenever we try to get it
+  var object = new Resident("", 0);
+  _ResidentData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }
 
 function extractZoneSet(context) {

@@ -1,5 +1,8 @@
-﻿var Resident = function(xmlSource) {
-    this.constr = "Resident";
+﻿var Resident = function(xmlSource, fakeIdCreation) {
+  this.constr = "Resident";
+  
+  if(fakeIdCreation === undefined) // parameter was omitted in call
+	{
     this.id = xmlSource.getAttribute("id");
     this.name = new LocalizedText(xmlSource, "name");
     
@@ -8,6 +11,18 @@
     this.imageId = extractFromAttributeWithDefaultObject(xmlSource, "imageId", 0);
     
     this.stores = extractListObject(xmlSource, "stores");
+  }
+  else
+  {
+    this.id = 0;
+    this.name = new LocalizedText(xmlSource, "name", "-");
+    
+    this.siteId = 0;
+    this.iconId = 0;
+    this.imageId = 0;
+    
+    this.stores = [];
+  }
 }
 
 Resident.prototype.getId = function() {

@@ -97,6 +97,11 @@ ItemBase.prototype.explore = function() {
 }
 
 ItemBase.prototype.exploreCategoryTitle = function(flavor) {
+  if(flavor == "shop")
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Propose les objets suivants:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Sell the following items:</h2>';
+  }
   if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Objets de cette catégorie:</h2>'; }
   return '<h2 class="subTitle exploreSubTitle">Objects of this category:</h2>';
 }
