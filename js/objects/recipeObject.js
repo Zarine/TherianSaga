@@ -52,6 +52,10 @@ Recipe.prototype.getTaskName = function(i) {
   return _TaskData[this.useInTasks[i]].getName();
 }
 
+Recipe.prototype.getIngredients = function(i) {
+  return this.ingredients;
+}
+
 // Explore Specific
 Recipe.prototype.explore = function() {
   var result = [];

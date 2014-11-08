@@ -44,6 +44,10 @@ Task.prototype.getRecipeId = function() {
   return this.recipeId;
 }
 
+Task.prototype.getIngredients = function(i) {
+  return _RecipeData[this.recipeId].getIngredients();
+}
+
 Task.prototype.getSkillId = function() {
   return this.skillId;
 }
@@ -90,10 +94,25 @@ Task.prototype.getTaskGroupIcon = function() {
 
 // Explore Specific
 Task.prototype.explore = function() {
-  return exploreId(this.getRecipeId());
+  var result = [];
+  
+  // First set a Title
+  result.push('<img src="' + this.getSkillIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName());
+  if(this.getProducedItemId() != 0) { result.push(' / <img src="' + this.getProducedItemIcon() + '" ><span class="exploreItem" onclick="exploreId(\'' + this.getProducedItemId() + '\')" >' + this.getProducedItemName() + '</span></h1>'); }
+  
+  result.push( exploreList([this.getId()], "self"));
+
+  result.push( exploreList(this.getIngredients()) );
+
+  return result.join("");
 }
 
 Task.prototype.exploreCategoryTitle = function(flavor) {
+  if(flavor == "self") 
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Information:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Information:</h2>';
+  }
   if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Tâches:</h2>'; }
   return '<h2 class="subTitle exploreSubTitle">Tasks:</h2>';
 }
@@ -105,7 +124,7 @@ Task.prototype.exploreTableHeader = function() {
 Task.prototype.exploreInformation = function(flavor) {
   if(flavor == "taskGroup")
   {
-    return '<tr class="exploreItem" onclick="exploreId(\'' + this.getProducedItemId() + '\')" ><td><img src="' + this.getProducedItemIcon() + '" ></td><td>' + this.getName() + '</td><td>' + this.getProducedItemName() + '</td><td>' + this.getSkillName() + '</td><td>' + this.getDifficulty() + '</td><td>' + this.getDuration() + '</td><td>' + this.getEffort() + '</td><td>' + this.getCooldown() + '</td>';
+    return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td><img src="' + this.getProducedItemIcon() + '" ></td><td>' + this.getName() + '</td><td>' + this.getProducedItemName() + '</td><td>' + this.getSkillName() + '</td><td>' + this.getDifficulty() + '</td><td>' + this.getDuration() + '</td><td>' + this.getEffort() + '</td><td>' + this.getCooldown() + '</td>';
   }
   return '<tr class="exploreItem" onclick="exploreId(\'' + this.getTaskGroupId() + '\')" ><td><img src="' + this.getTaskGroupIcon() + '" ></td><td>' + this.getName() + '</td><td>' + this.getProducedItemName() + '</td><td>' + this.getSkillName() + '</td><td>' + this.getDifficulty() + '</td><td>' + this.getDuration() + '</td><td>' + this.getEffort() + '</td><td>' + this.getCooldown() + '</td>';
 }

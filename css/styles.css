@@ -76,3 +76,7 @@ h1 {
 .spaceLeft {
   padding-left: 3px;
 }
+
+.centered {
+  text-align: center;
+}

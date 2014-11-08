@@ -57,6 +57,23 @@ UnitBase.prototype.getUnitTypeName = function() {
 // Explore Specific
 UnitBase.prototype.explore = function() {
   var result = [];
+
+  // First set a Title
+  result.push('<img src="' + this.getIcon() + '" ><h1 class="exploreTitle title" id="' + this.getId() + '">' + this.getName() + '</h1>');
+
+  result.push( exploreList(this.regions, "isIn") );
+  result.push( exploreList(this.skills) );
+  
+  // If it's a unit in a dungeon, display the dungeon in which he's in
+  var dungeonWithUnit = [];
+  for (var id in _DungeonData) {
+    if(_DungeonData[id].getUnitBases().indexOf(this.id) != -1)
+    {
+      dungeonWithUnit.push(id);
+    }
+  }
+  result.push(exploreList(dungeonWithUnit, "unitIn") );
+  
   return result.join("");
 }
 

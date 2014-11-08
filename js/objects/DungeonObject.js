@@ -30,6 +30,10 @@ Dungeon.prototype.getDescription = function() {
   return this.description.getText();
 };
 
+Dungeon.prototype.getUnitBases = function() {
+  return this.unitBases;
+};
+
 // Explore Specific
 Dungeon.prototype.explore = function() {
   var result = [];
@@ -43,10 +47,17 @@ Dungeon.prototype.explore = function() {
 }
 
 Dungeon.prototype.exploreCategoryTitle = function(flavor) {
+  if(flavor == "unitIn") 
+  {
+    if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Se trouve dans les dungeons suivants:</h2>'; }
+    return '<h2 class="subTitle exploreSubTitle">Can be found in the following dungeons:</h2>';
+  }
 }
 
-Dungeon.prototype.exploreTableHeader = function() {
+Dungeon.prototype.exploreTableHeader = function(flavor) {
+  return '<thead><tr><th>Name</th><th>Map Name</th></tr></thead>';
 }
 
-Dungeon.prototype.exploreInformation = function() {
+Dungeon.prototype.exploreInformation = function(flavor) {
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getId() + '\')" ><td>' + this.getName() + '</td><td>' + this.getMapName() + '</td></tr>';
 }

@@ -213,6 +213,10 @@ function extractUnitTypeSet(context) {
     _UnitTypeData[object.getId()] = object;
     _AllData[object.getId()] = object;
   }
+  // Add a default unitType so that it is defined whenever we try to get it
+  var object = new UnitType("", 0);
+  _UnitTypeData[object.getId()] = object;
+  _AllData[object.getId()] = object;
 }
 
 function extractUnitBaseSet(context) {

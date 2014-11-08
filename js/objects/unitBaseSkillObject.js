@@ -44,6 +44,18 @@ UnitBaseSkill.prototype.getUnitBaseInterestValue = function() {
   return _UnitBaseData[this.unitBaseId].getInterestSkillValue();
 };
 
+UnitBaseSkill.prototype.getSkillId = function() {
+  return this.skillId;
+};
+
+UnitBaseSkill.prototype.getSkillName = function() {
+  return _SkillData[this.skillId].getName();
+};
+
+UnitBaseSkill.prototype.getSkillIcon = function() {
+  return _SkillData[this.skillId].getIcon();
+};
+
 // Explore Specific
 UnitBaseSkill.prototype.explore = function() {
   var result = [];
@@ -56,12 +68,22 @@ UnitBaseSkill.prototype.exploreCategoryTitle = function(flavor) {
     if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">Est possédépar les humains/créatures:</h2>'; }
     return '<h2 class="subTitle exploreSubTitle">Is owned by the humans/creatures:</h2>';
   }
+  if(_Language == 'FR') { return '<h2 class="subTitle exploreSubTitle">A les compétences suivantes:</h2>'; }
+  return '<h2 class="subTitle exploreSubTitle">Has the following skills:</h2>';
 }
 
-UnitBaseSkill.prototype.exploreTableHeader = function() {
-  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemValueTitle">Skill Value</th><th class="exploreItemValueTitle">Interest</th><th class="exploreItemValueTitle">Interest Level</th></tr></thead>';
+UnitBaseSkill.prototype.exploreTableHeader = function(flavor) {
+  if(flavor == "usedBy") 
+  {
+    return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemValueTitle">Skill Value</th><th class="exploreItemValueTitle">Interest</th><th class="exploreItemValueTitle">Interest Level</th></tr></thead>';
+  }
+  return '<thead><tr><th class="exploreItemIconTitle"></th><th class="exploreItemNameTitle">Name</th><th class="exploreItemValueTitle">Skill Value</th></tr></thead>';
 }
 
-UnitBaseSkill.prototype.exploreInformation = function() {
-  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getUnitBaseId() + '\')" ><td class="exploreItemIcon"><img src="' + this.getUnitBaseIcon() + '" ></td><td class="exploreItemName">' + this.getUnitBaseName() + '</td><td class="exploreItemValue">' + this.getValue() + '</td><td class="exploreItemValue"><div class="UnitBaseHeight"><img class="vertAlign" src="' + this.getUnitBaseInterestIcon() + '" ><div class="vertAlign spaceLeft"> ' + this.getUnitBaseInterestName() + '</div></div></td><td>' + this.getUnitBaseInterestValue() + '</td></tr>';
+UnitBaseSkill.prototype.exploreInformation = function(flavor) {
+  if(flavor == "usedBy") 
+  {
+    return '<tr class="exploreItem" onclick="exploreId(\'' + this.getUnitBaseId() + '\')" ><td class="exploreItemIcon"><img src="' + this.getUnitBaseIcon() + '" ></td><td class="exploreItemName">' + this.getUnitBaseName() + '</td><td class="exploreItemValue">' + this.getValue() + '</td><td class="exploreItemValue"><div class="UnitBaseHeight"><img class="vertAlign" src="' + this.getUnitBaseInterestIcon() + '" ><div class="vertAlign spaceLeft"> ' + this.getUnitBaseInterestName() + '</div></div></td><td>' + this.getUnitBaseInterestValue() + '</td></tr>';
+  }
+  return '<tr class="exploreItem" onclick="exploreId(\'' + this.getSkillId() + '\')" ><td class="exploreItemIcon"><img src="' + this.getSkillIcon() + '" ></td><td class="exploreItemName">' + this.getSkillName() + '</td><td class="exploreItemValue">' + this.getValue() + '</td></tr>';
 }

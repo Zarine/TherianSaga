@@ -36,7 +36,8 @@ function prepareAutoCompletion() {
   
   $('#exploreSearch').autocomplete({
     source : list,
-    close: function() { searchExplore(); }
+    close: function() { searchExplore(); },
+    create: function() { searchExplore(); }
   });
 }
 
