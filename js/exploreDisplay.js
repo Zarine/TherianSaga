@@ -43,9 +43,12 @@ function prepareAutoCompletion() {
 
 function searchExplore() {
   var value = $('#exploreSearch').val();
-  for(var id in _AllData)
+  if(value != "")
   {
-    var name = _AllData[id].getName();
-    if(name == value) { exploreId(id); }
+    for(var id in _AllData)
+    {
+      var name = _AllData[id].getName();
+      if(name == value) { exploreId(id); }
+    }
   }
 }
