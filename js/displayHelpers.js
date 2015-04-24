@@ -1,8 +1,8 @@
-////////////////////////
+﻿////////////////////////
 // Helper for display //
 ////////////////////////
 
-var _TherianSagaImageLocation = "http://cdn.theriansaga.gameforge.com/gameassets/Images/";
+var _TherianSagaImageLocation = "http://statics.theriansaga.gameforge.com/gameassets/Images/";
 var _TherianSagaDefaultImage = _TherianSagaImageLocation + "00600/00619.png";
 var _Language = 'EN';
 var _CurrentOutput = '';
